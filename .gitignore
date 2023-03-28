@@ -1,0 +1,17 @@
+
+*.aux
+*.DS_Store
+*.pyc
+*.acn
+*.fdb_latexmk
+*.fls
+*.glo
+*.ist
+*.lof
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.brf
+*.gz
