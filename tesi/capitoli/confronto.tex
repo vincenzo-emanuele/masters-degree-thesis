@@ -10,9 +10,8 @@
 \section{Confronto} { \setstretch{1.3}
 L'utilizzo dei tool di simulazione per il Cloud risulta essere di fondamentale importanza in diversi ambiti. Tali strumenti, infatti, consentono ai ricercatori e ai progettisti delle infrastrutture di lavorare con un ambiente virtuale evitando i costi dovuti all'utilizzo di un'infrastruttura fisica. Nel corso degli anni diversi autori hanno presentato svariati lavori (\cite{mansouri2020cloud}, \cite{suryateja2016comparative}, \cite{abreu2020comparative}) in cui confrontano i simulatori disponibili evidenziandone le caratteristiche peculiari che ne guidano la scelta in uno specifico contesto. Di seguito verrà presentato un resoconto dei risultati dei confronti svolti dagli autori negli anni. 
 Nell'ambito della presente trattazione si è interessati all'ottenimento di metriche relative al consumo energetico delle varie componenti del centro di calcolo, per cui si tenderà a prioritizzare caratteristiche relative all'accuratezza delle simulazioni.
-\subsection{CloudSim}
+\subsection{CloudSim ed estensioni}
 CloudSim \cite{calheiros2011cloudsim} è uno dei simulatori più utilizzati dai ricercatori. Tale tool risulta essere completo ed estremamente estendibile e per tale ragione in letteratura sono stati proposti diversi simulatori basati su di esso. Tra le funzionalità fornite risulta utile annoverare la disponibilità di un motore di virtualizzazione che consente di creare e di gestire servizi di virtualizzazione su un nodo della rete e la possibilità di allocare i core della macchina in maniera \emph{space-shared} (la macchina viene partizionata in un insieme di core, ciascuno dei quali viene allocato ad un singolo job fino a quando non viene completato) e \emph{time-shared} (è possibile assegnare più di un job ad un core e ciascun job viene eseguito per un lasso di tempo fino a quando non ne viene scelto un altro) \cite{mansouri2020cloud}. 
-\subsection{Simulatori basati su CloudSim}
 \subsubsection{NetworkCloudSim}
 NetworkCloudSim  \cite{garg2011networkcloudsim} fornisce diversi modelli di comunicazione come quello basato su messaggi, su pacchetti e su flussi. Fornisce, inoltre, una valutazione accurata dello \emph{scheduling} delle macchine del centro di calcolo. Infine, vi è la possibilità di ottenere un semplice modello energetico del centro di calcolo senza, tuttavia, un \emph{focus} dettagliato sull'efficienza energetica \cite{mansouri2020cloud}.
 \subsubsection*{CloudAnalyst}
@@ -26,7 +25,7 @@ TeachCloud \cite{jararweh2013teachcloud} nasce con l'obiettivo di essere un tool
 \subsubsection*{DartCSim}
 DartCSim \cite{li2012dartcsim} mediante una semplice interfaccia grafica consente di impostare diversi parametri per la simulazione come le caratteristiche del centro di calcolo e la topologia della rete; tali parametri possono essere importati ed esportati a qualsiasi livello della simulazione e possono essere impostati sia per una singola CPU che per l'intero centro di calcolo. Tuttavia tale strumento non fornisce un modello energetico completo, impedendo, dunque, agli sviluppatori di implementare strategie volte al miglioramento dell'efficienza del centro di calcolo \cite{mansouri2020cloud}. 
 \subsubsection*{DartCSim+}
-DartCSim+ nasce con l'obiettivo di migliorare CloudSim introducendo un modello energetico e un modello di rete. L'implementazione di tali aspetti consente agli sviluppatori di progettare metodologie di scheduling \emph{power-aware}. Tale simulatore, tuttavia, non prevede un modello dei costi e non copre le funzionalità di sicurezza, impedendo agli sviluppatori di analizzare gli aspetti di sicurezza del centro di calcolo \cite{mansouri2020cloud}. 
+DartCSim+ \cite{dartcsim+} nasce con l'obiettivo di migliorare CloudSim introducendo un modello energetico e un modello di rete. L'implementazione di tali aspetti consente agli sviluppatori di progettare metodologie di scheduling \emph{power-aware}. Tale simulatore, tuttavia, non prevede un modello dei costi e non copre le funzionalità di sicurezza, impedendo agli sviluppatori di analizzare gli aspetti di sicurezza del centro di calcolo \cite{mansouri2020cloud}. 
 \subsubsection*{ElasticSim}
 ElasticSim \cite{cai2017elasticsim} ha come funzionalità principale lo \emph{scaling} automatico delle risorse a runtime in base al carico di lavoro: in questo modo gli sviluppatori possono progettare algoritmi di scheduling efficienti con un \emph{focus} sul \emph{workflow}. Tale simulatore, tuttavia, fornisce un modello limitato del consumo energetico e non è in grado di simulare esperimenti correlati alla sicurezza \cite{mansouri2020cloud}. 
 \subsubsection*{FederatedCloudSim}
@@ -38,27 +37,33 @@ WorkflowSim \cite{chen2012workflowsim} consente di studiare l'impatto delle perf
 \subsubsection*{CloudReports}
 CloudReports \cite{teixeira2014cloudreports} mette a disposizione degli sviluppatori una \emph{GUI} mediante la quale è possibile gestire diversi aspetti del centro di calcolo e visualizzare report dettagliati riguardanti l'utilizzo delle risorse, l'allocazione delle macchine virtuali ed il consumo energetico del centro di calcolo. Uno degli aspetti non contemplati dal simulatore riguarda la sicurezza, in quanto non viene definito un layer di sicurezza che consenta agli sviluppatori di indagarne anche le caratteristiche più basilari \cite{mansouri2020cloud}.
 \subsubsection*{CEPSim}
-CEPSim \cite{higashino2015cepsim} modella diversi ambienti di tipo CEP (Complex Event Processing) \cite{luckham1998complex} all'interno dei quali l'utente può definire query sfruttando diversi linguaggi proprietari e modellando il flusso di esecuzione mediante un grafo diretto aciclico. Il simulatore implementa diversi algoritmi di scheduling dando la possibilità agli sviluppatori di valutare le query definite in sistemi eterogenei sotto condizioni di carico differenti. 
+CEPSim \cite{higashino2015cepsim} modella diversi ambienti di tipo CEP (Complex Event Processing) \cite{luckham1998complex} all'interno dei quali l'utente può definire query sfruttando diversi linguaggi proprietari e modellando il flusso di esecuzione mediante un grafo diretto aciclico. Il simulatore implementa diversi algoritmi di scheduling del carico dando la possibilità agli sviluppatori di valutare le query definite sotto condizioni di carico differenti. CEPSim, tuttavia, non tiene conto dei consumi della rete dunque il risultato dal punto di vista del consumo energetico non risulta essere esaustivo \cite{mansouri2020cloud}. 
 \subsubsection*{DynamicCloudSim}
+DynamicCloudSim \cite{bux2013dynamiccloudsim} ha come \emph{focus} principale l'instabilità dei parametri del centro di calcolo che variano a runtime. In particolare definisce modelli di fallimento nell'esecuzione dei task dando la possibilità allo sviluppatore di determinare il tasso di failure durante l'esecuzione di esperimenti nell'ambiente simulato. Gli sviluppatori non hanno, tuttavia, la possibilità di calcolare il consumo energetico degli esperimenti effettuati in quanto il modello energetico fornito risulta essere fortemente limitato \cite{mansouri2020cloud}.
 \subsubsection*{CloudExp}
+CloudExp \cite{jararweh2014cloudexp} mette a disposizione degli sviluppatori una semplice \emph{GUI} mediante la quale è possibile configurare i parametri dell'ambiente e monitorarne il comportamento in maniera agevole. In particolare, CloudExp consente di definire un Service Level Agreement basato su parametri come il numero di utenti, la disponibilità ed il costo dei servizi, le prestazioni della rete e le misure di sicurezza. Il modello energetico considerato dal simulatore risulta, tuttavia, semplicistico e non si presta ad un utilizzo volto all'analisi di strategie \emph{energy-aware} \cite{mansouri2020cloud}. 
 \subsubsection*{CM Cloud}
+CM Cloud \cite{alves2016cm} supporta diversi modelli di costo ed in particolare è in grado di stimare il costo totale della simulazione in termini energetici ed economici effettuando una comparazione tra differenti provider come Google, Microsoft e Amazon. Il simulatore, tuttavia, non supporta un modello di comunicazione completo, non dando, dunque, la possibilità di definire pattern di traffico e di investigare l'impatto complessivo del traffico inviato e ricevuto dagli host della rete. Un ulteriore aspetto critico riguarda l'assenza di un modello di fallimenti dei task \cite{mansouri2020cloud}.  
 \subsubsection*{MR-CloudSim}
+MR-CloudSim \cite{jung2012mr} si basa sul modello computazionale \emph{MapReduce} \cite{dean2008mapreduce} per la computazione di big data. Tale simulatore, tuttavia, presenta un modello di computazione limitato e non considera il tempo ed il costo relativi al processing dei file, non dando la possibilità agli sviluppatori di determinare il costo dell'utilizzo dei servizi \cite{mansouri2020cloud}. 
 \subsubsection*{UCloud}
-
-\subsection*{MDCSim}
-\subsection*{GDCSim}
-\subsection*{CloudNetSim}
-\subsection*{CloudNetSim++}
-\subsection*{GreenCloud}
-\subsection*{iCanCloud}
-\subsection*{SecCloudSim}
-\subsection*{GroudSim}
-\subsection*{CloudSched}
-\subsection*{SimIC}
-\subsection*{SPECI}
-\subsection*{SCORE}
-\subsection*{GAME-SCORE}
-\subsection*{DISSECT-CF}
+UCloud \cite{sqalli2012ucloud} nasce come ambiente cloud per le università dando agli sviluppatori la possibilità di testare le proprie policy sia in ambienti pubblici che in quelli privati. Manca, tuttavia, un supporto alle politiche di sicurezza e ad un modello dei costi.
+\subsection{Altri simulatori}
+\subsubsection*{MDCSim}
+MDCSim \cite{lim2009mdcsim} 
+\subsubsection*{GDCSim}
+\subsubsection*{CloudNetSim}
+\subsubsection*{CloudNetSim++}
+\subsubsection*{GreenCloud}
+\subsubsection*{iCanCloud}
+\subsubsection*{SecCloudSim}
+\subsubsection*{GroudSim}
+\subsubsection*{CloudSched}
+\subsubsection*{SimIC}
+\subsubsection*{SPECI}
+\subsubsection*{SCORE}
+\subsubsection*{GAME-SCORE}
+\subsubsection*{DISSECT-CF}
 \subsubsection*{iFogSim}
 Problema: simulazione basata su eventi.
 }
