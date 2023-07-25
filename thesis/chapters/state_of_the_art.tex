@@ -112,19 +112,24 @@ The structure of \emph{GreenCloud} simulation environment mapped onto the three-
     \label{fig:greencloud_arch}
 \end{figure}
 \subsubsection*{iCanCloud}
-iCanCloud \cite{nunez2012icancloud} presenta un'apposita \emph{GUI} mediante la quale è possibile configurare il centro di calcolo ed ottenere report grafici. iCanCloud consente di implementare diverse strategie di brokering dando la possibilità di definire diversi broker tra utenti e centro di calcolo. Gli aspetti non contemplati da tale simulatore riguardano il modello energetico e la sicurezza \cite{mansouri2020cloud}. 
+\emph{iCanCloud} \cite{nunez2012icancloud} offers a dedicated \emph{GUI} that allows users to configure the computing center and obtain graphical reports. \emph{iCanCloud} supports the implementation of various brokering strategies, providing the flexibility to define different brokers connecting users and the computing center. However, this simulator does not address aspects related to the energy model and security \cite{mansouri2020cloud}.
 \subsubsection*{secCloudSim}
-secCloudSim \cite{rehman2014seccloudsim} è un'estensione di iCanCloud che implementa dei semplici meccanismi di sicurezza di cui il suo predecessore è sprovvisto. Tra le diverse funzionalità di sicurezza risulta utile annoverare la presenza di un protocollo di autenticazione e delle \emph{Access Control List} (ACL) mediante le quali è possibile associare specifici privilegi a ciascun utente autenticato. Più in generale secCloudSim fornisce un framework mediante il quale i ricercatori possono sviluppare le caratteristiche di sicurezza come cifratura, decifratura, incapsulamente, autenticazione e privacy. Tuttavia i meccanismi di sicurezza forniti da secCloudSim non sono molto avanzati, per cui i ricercatori non hanno la possibilità di studiare le vulnerabilità dell'infrastruttura \cite{mansouri2020cloud}. 
+\emph{secCloudSim} \cite{rehman2014seccloudsim} is an extension of \emph{iCanCloud} that implements simple security mechanisms lacking in its predecessor. Among the various security features, it includes an authentication protocol and \emph{Access Control List (ACL)} that allows associating specific privileges with each authenticated user. \emph{secCloudSim} provides a framework where researchers can develop security characteristics such as encryption, decryption, encapsulation, authentication, and privacy. However, the security mechanisms provided by \emph{secCloudSim} are not very advanced, limiting researchers from studying infrastructure vulnerabilities \cite{mansouri2020cloud}.
 \subsubsection*{GroudSim}
-GroudSim \cite{ostermann2011groudsim} è un simulatore \emph{Java-based} principalmente utilizzato nel contesto di applicazioni scientifiche. Gli sviluppatori hanno la possibilità di importare esperimenti di ASKALON \cite{fahringer2005askalon} all'interno di questo simulatore effettuando simulazioni di applicazioni reali. Questo simulatore pecca in termini di realismo in quanto non permette di configurare una rete realistica in termini di topologia, né risulta essere in grado di scalare. \cite{mansouri2020cloud}.
+\emph{GroudSim} \cite{ostermann2011groudsim} is a \emph{Java-based} simulator primarily used in the context of scientific applications. Developers can import \emph{ASKALON} experiments \cite{fahringer2005askalon} into this simulator to conduct simulations of real applications. However, this simulator lacks realism as it does not allow the configuration of a realistic network topology and does not scale effectively \cite{mansouri2020cloud}.
+
 \subsubsection*{CloudSched}
-CloudSched \cite{tian2013toolkit} implementa vari algoritmi di efficienza energetica e diverse strategie di scheduling delle risorse delle macchine fisiche e virtuali al fine di evitare \emph{bottleneck}, dando la possiblità agli sviluppatori di definire algoritmi di scheduling delle risorse \emph{ad-hoc}. CloudSched non tiene conto dei fallimenti nell'esecuzione dei task per cui non risulta possibile prevedere strategie di \emph{fault-tolerance} \cite{mansouri2020cloud}.
+CloudSched \cite{tian2013toolkit} implements various energy-efficient algorithms and resource scheduling strategies for physical and virtual machines to avoid bottlenecks. It allows developers to define custom resource scheduling algorithms as needed. However, \emph{CloudSched} does not consider task failures, making it unable to implement fault-tolerance strategies \cite{mansouri2020cloud}.
+
 \subsubsection*{SimIC}
-SimIC \cite{sotiriadis2013simic} ha come \emph{focus} principale l'eterogeneità degli ambienti all'interno dei quali vengono eseguiti gli esperimenti. Gli sviluppatori possono, infatti, definire algoritmi di scheduling \emph{inter-cloud} basandosi su diversi parmetri distribuiti. Le principali limitazioni di tale simulatore risiedono nel fatto che non dia la possibilità di indagare sul consumo energetico né sui controlli relativi al traffico e alle congestioni \cite{mansouri2020cloud}. 
+SimIC \cite{sotiriadis2013simic} focuses mainly on the heterogeneity of environments in which experiments are executed. Developers can define inter-cloud scheduling algorithms based on various distributed parameters. However, the main limitations of this simulator are that it does not allow investigation of energy consumption, traffic controls, and congestions \cite{mansouri2020cloud}.
 \subsubsection*{SPECI}
-SPECI \cite{sriram2009speci} modella gli aspetti relativi alla scalabilità e alle performance dei centri di calcolo dando agli sviluppatori la possiblità di monitorare il comportamento del sistema facendone variare l'architettura. Il simulatore consente, inoltre, di indagare sulle inconsistenze che possono sorgere nel momento in cui si verificano dei guasti. Non vengono, tuttavia, modellati i cambiamenti delle prestazioni delle macchine virtuali durante l'esecuzione nonostante tale fattore abbia una rilevanza particolare negli scenari reali \cite{mansouri2020cloud}.  
+\emph{SPECI} \cite{sriram2009speci} models aspects related to the scalability and performance of computing centers, allowing developers to monitor the system's behavior by varying its architecture. The simulator also enables investigation of inconsistencies that may arise in the event of failures. However, it does not model changes in the performance of virtual machines during execution, despite this factor being particularly relevant in real-world scenarios \cite{mansouri2020cloud}.
+
 \subsubsection*{SCORE}
-SCORE \cite{fernandez2018score} si presta alla definizione di algoritmi di scheduling \emph{energy-aware}, ad esempio mediante meccanismi di \emph{shutting-down} e \emph{powering-on}. Risulta, tuttavia, sprovvisto di un modulo di sicurezza che consenta agli sviluppatori di indagarne gli aspetti fondamentali del centro di calcolo \cite{mansouri2020cloud}. 
+\emph{SCORE} \cite{fernandez2018score} is well-suited for defining energy-aware scheduling algorithms, such as mechanisms for shutting down and powering on resources. However, it lacks a security module that would allow developers to investigate fundamental aspects of the computing center related to security \cite{mansouri2020cloud}.
+
+
 \subsubsection*{GAME-SCORE}
 The GAME-SCORE simulator is an extension of the SCORE simulator written in \emph{Scala}, which uses a combination of discrete-event and multi-agent simulation approaches. Its primary purpose is to simulate energy-efficient IaaS in cloud environments. This simulation tool provides the flexibility to dynamically select energy-efficiency policies from a range of options, allowing for the shutdown of idle machines during runtime. As a practical example, it introduces an algorithm based on the Stackelberg Game that utilizes this capability. However, it's important to note that this simulation tool can accommodate other strategies as well. These strategies can involve the dynamic switching between various energy-efficiency policies and scheduling algorithms. The versatility of this tool enables the implementation of different approaches to optimize energy consumption in simulated environments.
 Architecture of GAME-SCORE is shown in figure \ref{fig:gamescore_arch}. It is composed of two modules, described below:
@@ -140,23 +145,22 @@ It is additionally composed of a special module that implements the Stackelberg 
     \label{fig:gamescore_arch}
 \end{figure}
 \subsubsection*{DISSECT-CF}
-DISSECT-CF \cite{kecskemeti2015dissect} implementa uno schema di condivisione delle risorse del centro di calcolo e un modello energetico dando la possibilità agli sviluppatori di indagare diversi aspetti. Risulta, tuttavia, sprovvisto di un modulo di sicurezza e non dà la possibilità di definire architetture di rete realistiche in quanto mette a disposizione solo un numero limitato di architetture di rete \cite{mansouri2020cloud}.
+\emph{DISSECT-CF} \cite{kecskemeti2015dissect} implements a resource sharing scheme for the computing center and an energy model, allowing developers to investigate various aspects. However, it lacks a security module, and it does not provide the capability to define realistic network architectures as it offers only a limited number of network architectures \cite{mansouri2020cloud}.
+
 \subsubsection{ICARO}
-ICARO \cite{badii2016icaro} ha come obiettivo principale quello di analizzare i cambiamenti nel carico di un centro di calcolo quando la struttura del carico stesso varia dinamicamente a runtime \cite{khalil2017cloud}. 
+\emph{ICARO} \cite{badii2016icaro} aims to analyze changes in the load of a computing center when the load structure dynamically varies at runtime \cite{khalil2017cloud}.
+
 \subsubsection{SmartSim}
-SmartSim \cite{shiraz2012extendable} simula il comportamento dei dispositivi mobili e delle applicazioni che fanno un uso intensivo delle risorse. \cite{khalil2017cloud}. Grazie a SmartSim è possibile modellare sia i componenti del sistema che il loro comportamento in termini di allocazione e gestione di risorse. \cite{suryateja2016comparative}.
+SmartSim \cite{shiraz2012extendable} simulates the behavior of mobile devices and resource-intensive applications \cite{khalil2017cloud}. With SmartSim, it is possible to model both system components and their behavior in terms of resource allocation and management \cite{suryateja2016comparative}.
+
 \subsubsection{PICS}
-PICS \cite{kim2015pics} è un simulatore progettato per valutare il costo e le prestazioni degli IaaS pubblici tenendo conto di fattori relativi alla gestione delle risorse e allo \emph{scheduling} dei \emph{job}. Tuttavia questo simulatore è sprovvisto di un modello relativo ai costi di comunicazione. \cite{suryateja2016comparative}
-\subsubsection{VirtualCloud}
+\emph{PICS} \cite{kim2015pics} is a simulator designed to evaluate the cost and performance of public IaaS (Infrastructure as a Service) while considering factors related to resource management and job scheduling. However, this simulator lacks a model for communication costs \cite{suryateja2016comparative}.
+
 
 \section{Choice of simulation tool}
-Alla luce dei confronti effettuati i diversi tool analizzati si adattano a vari scenari. Ognuno di essi presenta, infatti, punti di forza e punti di debolezza e per le esigenze richieste dallo studio affrontato dal presente lavoro di tesi risulta opportuno privilegiare aspetti relativi al consumo energetico del centro di calcolo, all'accuratezza delle simulazioni e alla sicurezza del centro di calcolo. Dai confronti effettuati si evince che il simulatore che contempla in maniera accurata tali aspetti è GreenCloud, pertanto lo studio proseguirà utilizzando GreenCloud come tool di riferimento per le simulazioni da svolgere. 
+Based on the comparisons made among the different analyzed tools, each of them is suited to various scenarios. Each tool has its strengths and weaknesses, however, for the needs required in the study addressed by this thesis work, it is essential to prioritize aspects related to the energy consumption of the computing center, the accuracy of simulations, and the security of the computing center. From the conducted comparisons, it is evident that GreenCloud is the simulator that accurately considers these aspects. Therefore, the study will continue using GreenCloud as the reference tool for the simulations to be conducted.
 
 \section{}
 
 }
 
-Politiche di spegnimento dei servers
-Algoritmi di schedulazione
-
-Controllare la granularità dei consumi 
