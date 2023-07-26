@@ -174,19 +174,8 @@ It is additionally composed of a special module that implements the Stackelberg 
 
 
 \section{Choice of simulation tool}
-As discussed earlier, this research work requires accurate insights about the Data Center components energy consumption. This led to the selection of the five tools that are most focused on analyzing energy consumption, namely: \emph{CloudSim}, \emph{DISSECT-CF}, \emph{GreenCloud}, \emph{GDCSim} and \emph{GAME-SCORE}.
-
-\subsection{Comparison parameters}
-The selected simulators have been evaluated based on several parameters, including:
-\begin{itemize}
-    \item \textbf{Last update}: it provides an indication of how well-supported and updated the simulator is; 
-    \item \textbf{Popularity}: it gives an idea of how popular the simulator is; 
-    \item \textbf{Availability}: it indicates the availability of the simulator;
-    \item \textbf{Granularity}: it suggests the level of detail at which the elements of the data center and simulation can be defined; 
-    \item \textbf{Performance profile}: it provides an indication of the performance of the simulator;
-    \item \textbf{Cloud usage}: it provides an idea of how feasible it is to run the simulator in a cloud environment.
-\end{itemize}
-
+As discussed earlier, this research work requires accurate insights about the energy consumption of the Data Center components. This need led to the selection of the five tools between the ones analyzed in the previous section, that are most focused on analyzing energy consumption, namely: \emph{CloudSim}, \emph{DISSECT-CF}, \emph{GreenCloud}, \emph{GDCSim} and \emph{GAME-SCORE}.
+Table \ref{tab:comparison} shows a summary of the selected simulators. As it can be observed, \emph{GDCSim} is stated to be not available. According to the original paper about \emph{GDCSim} \cite{gupta2011gdcsim}, it was mentioned that the simulator would have been available on the \emph{BlueTool} platform once it was ready, however, this platform is no longer accessible. The rest of the information has been gathered from the original papers related to the simulators, namely \cite{son2015cloudsimsdn}, \cite{kecskemeti2015dissect}, \cite{kliazovich2012greencloud}, \cite{gupta2011gdcsim}, \cite{gdcsim_latest} and \cite{fernandez2019game}.
 \begin{table}
     \caption{Simulation tools summary}\label{tab:comparison}
     \begin{tabular}{|l|l|l|l|l|l|}
@@ -201,9 +190,19 @@ The selected simulators have been evaluated based on several parameters, includi
       \hline
     \end{tabular}
 \end{table}
-Table \ref{tab:comparison} shows a summary of the analyzed simulators. According to the original paper about \emph{GDCSim} \cite{gupta2011gdcsim}, it was mentioned that the simulator would have been available on the BlueTool platform once it was ready, however, this platform is no longer accessible.
 
-The following sections describe the simulators from the perspective of the parameters.
+\subsection{Comparison parameters}
+The selected simulators have been evaluated based on several parameters, including:
+\begin{itemize}
+    \item \textbf{Last update}: it provides an indication of how well-supported and updated the simulator is; 
+    \item \textbf{Popularity}: it gives an idea of how popular the simulator is; 
+    \item \textbf{Availability}: it indicates the availability of the simulator;
+    \item \textbf{Granularity}: it suggests the level of detail at which the elements of the data center and simulation can be defined; 
+    \item \textbf{Performance profile}: it provides an indication of the performance of the simulator;
+\end{itemize}
+
+\subsection{Simulators evaluation}
+The following sections describe the simulators from the perspective of the evaluation parameters. Each feature of the simulators has been assigned a score on a scale from 1 to 5, in order to highlight strengths and weaknesses. The evaluation results are presented in the radar chart shown in figure \ref{fig:radar}.
 
 \subsubsection{Last update}
 \emph{CloudSim}'s, \emph{GAME-SCORE}'s and \emph{DISSECT-CF}'s last update (2020, 2018 and 2023 respectively) were gathered from the latest commits on their GitHub repositories\footnote{CloudSim: https://github.com/Cloudslab/cloudsim,\\ GAME-SCORE: https://github.com/DamianUS/game-score \\ DISSECT-CF: https://github.com/kecskemeti/dissect-cf}. \emph{GreenCloud}'s latest files modification year is 2016 (the project has been download from the simulator platform\footnote{http://greencloud.gforge.uni.lu/ftp/greencloud-v2.1.2.tar.gz}). Since \emph{GDCSim} is not available, we can assume that its last update corresponds to the year of the last paper published about it \cite{gdcsim_latest}, which is 2014.
@@ -240,8 +239,15 @@ According to the original papers about the analyzed simulators:
     \item The authors of \emph{GAME-SCORE} did not provide an insight about their simulator's performance in the original paper \cite{fernandez2019game}. Moreover, none of the previously mentioned works about simulators comparison investigate \emph{GAME-SCORE} performance, so the evaluation of this parameter is not possible. 
 \end{itemize}
 
-Based on the comparisons made among the different analyzed tools, each of them is suited to various scenarios. Each tool has its strengths and weaknesses, however, for the needs required in the study addressed by this thesis work, it is essential to prioritize aspects related to the energy consumption of the computing center, the accuracy of simulations, and the security of the computing center. From the conducted comparisons, it is evident that GreenCloud is the simulator that accurately considers these aspects. Therefore, the study will continue using GreenCloud as the reference tool for the simulations to be conducted.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{chapters/images/simulators_scoring.png}
+    \caption{Simulators scoring}
+    \label{fig:radar}
+\end{figure}
 
+\subsection{Selection of GreenCloud}
+Based on the comparisons made among the different analyzed simulators, each of them has its strengths and weaknesses, however, for the needs required in the study addressed by this thesis work, it is essential to prioritize aspects related to the energy consumption of the computing center and the accuracy of simulations. From the conducted comparisons, it is evident that \emph{GreenCloud} is the simulator that accurately considers these aspects as it is built on top of \emph{NS2} simulator and fully implements the \emph{TCP/IP} protocol. Despite \emph{GreenCloud} simulation times tend to be high, for the purposes of this study it is reasonable to prioritize granularity over performance. Therefore, the study will continue using \emph{GreenCloud} as the reference tool for the simulations to be conducted.
 
 }
 
