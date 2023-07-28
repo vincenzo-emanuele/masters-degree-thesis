@@ -9,8 +9,53 @@
 \end{citazione}
 \newpage
 
-\section{Motivations} \setstretch{1.3}
+\section{Objectives} \setstretch{1.3}
+This research work aims to analyze and evaluate the utilization of the Data Center efficiency parameter \emph{PUE (Power Usage Effectiveness)} for real world cyber attacks detection. In particular, two attack scenarios will be studied and simulated, namely \emph{DoS (Denial of Service)} and cooling system attack, in order to establish if there is a significant variation in the \emph{PUE} that leads to their detection. 
 
-\section{Objectives and results} 
+
+\subsection{PUE definition}
+\emph{PUE (Power Usage Effectiveness)} is a Data Center efficiency parameter introduced by a non-profit consortium called \emph{The Green Grid} in 2007 \cite{avelar2012pue}. It is defined as the ratio of total facility energy to IT equipment energy (equation \ref{eq:pue}):
+\begin{displaymath} \label{eq:pue}
+    PUE = \frac{Total Facility Energy}{IT Equipment Energy}
+\end{displaymath}
+\emph{Total Facility Energy} is defined as the energy consumed by the whole Data Center (including IT equipment, power delivery components, cooling system components and data center lighting), while \emph{IT Equipment Energy} is defined as the energy consumed to run the facility's IT infrastructure. \emph{PUE} value can range from 1 to infinity. A \emph{PUE} value of 1 represents an ideal scenario where all the power consumed is used solely by the IT equipment, making it highly efficient. As the \emph{PUE} value increases above 1, it indicates that a greater portion of the total power is consumed by non-IT equipment, which reduces the overall energy efficiency of the Data Center. Since this parameter provides an insight of the Data Center efficiency, describing how much energy is used by the IT equipment, it has been recognized globally as the industry's preferred infrastructure efficiency metric for Data Centers. However, \emph{PUE} depends on many attributes such as Data Center design, engineering, implementation, and operations, making it difficult to compare Data Centers based on public \emph{PUE} reports. For this purpose, \emph{The Green Grid} has provided a set of guidelines for organizations about making public claims regarding Data Centers \emph{PUE} in order to make this parameter suitable for comparisons. Overall, \emph{PUE} provides an insight about Data Centers energy efficiency helping designers to improve operational efficiency, potentially through comparisons with similar Data Centers. 
+
+\subsection{PUE calculation}
+\emph{Avelar et al.} \cite{avelar2012pue} provides a three-level approach for measuring \emph{PUE}. Each level provides a certain level of detail in \emph{PUE} misuration, considering additional measurement points in order to provide further insight into Data Center infrastructure components' energy consumption. There are three main parameters that vary depending on the chosen level of measurement, namely: \emph{IT Equipment Energy}, \emph{Total Facility Energy} and \emph{Measurement Interval}. 
+
+\subsubsection{Level 1: Basic}
+With a level 1 measurement, the parameters are calculated as follows:
+\begin{itemize}
+    \item \textbf{IT Equipment Energy}: it is measured at the output of the \emph{UPS (Uninterruptible Power Supply)} equipment;
+    \item \textbf{Total Facility Energy}: it is measured from the utility service entrance that feeds all the Data Center equipment;
+    \item \textbf{Measurement Interval}: power measurements are performed once a month.
+\end{itemize}
+
+\subsubsection{Level 2: Intermediate}
+With a level 2 measurement, the parameters are calculated as follows:
+\begin{itemize}
+    \item \textbf{IT Equipment Energy}: it is measured at the output of the \emph{PDUs (Power Distribution Unit)} equipment;
+    \item \textbf{Total Facility Energy}: it is measured from the utility service entrance that feeds all the Data Center equipment;
+    \item \textbf{Measurement Interval}: power measurements are performed once a day.
+\end{itemize}
+
+\subsubsection{Level 3: Advanced}
+With a level 3 measurement, the parameters are calculated as follows:
+\begin{itemize}
+    \item \textbf{IT Equipment Energy}: it is measured at each component of the Data Center excluding non-IT loads;
+    \item \textbf{Total Facility Energy}: it is measured from the utility service entrance that feeds all the Data Center equipment;
+    \item \textbf{Measurement Interval}: power measurements are performed at least every 15 minutes.
+\end{itemize}
+
+\subsection{Denial of Service}
+\emph{DoS (Denial of Service)} attack is a cyber attack that aims to make a resource unavailable to its users. Usually this kind of attack is performed by flooding the host that provides a specific service until it is unable to respond to its legitimate users. There are various \emph{DoS} attacks techniques that depends on 
+
+\subsection{Cooling system attack}
+
+
+
+\section{Motivations}
+
+\section{Results}
 
 \section{Structure of the Thesis}
