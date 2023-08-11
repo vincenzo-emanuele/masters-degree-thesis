@@ -17,8 +17,21 @@ Based on the comparisons made among the different analyzed simulators, each of t
 As mentioned in the previous section, \emph{GreenCloud} provides several Data Centers architectures. The implemented architectures consist of various components, described as follows:
 \begin{itemize}
     \item \textbf{Servers: } single core nodes with a fixed processing power limit expressed in \emph{MIPS} (million instructions per second) or \emph{FLOPS} (floating point operations per second) that are responsible for task execution. These components are organized in racks and the architecture includes the presence of a Top-of-Rack switch that connects them to the access layer of the architecture;
-    \item \textbf{Workloads: }
+    \item \textbf{Switches and links: } they implement the interconnection between the Servers in the Data Center. The type and the quality of these devices influences the transmission rate, anyway the costs of such devices need to be taken into account. Switches usually support either 1 \emph{GE (Gigabit Ethernet)} or 10 \emph{GE} as transmission rates, while links usually support 10 \emph{Mb/s}, 100 \emph{Mb/s}, and 1 \emph{Gb/s} as transmission rates;
+    \item \textbf{Workloads: } the representation of tasks to be executed that consist of two components, computational and communicational. The computational part specifies the required amount of computing resources, measured in \emph{MIPS} or \emph{FLOPS}, and the duration of resource allocation. On the other hand, the communicational component of the workload entails the quantity and dimensions of data transfers essential before, during, and after the workload execution.
 \end{itemize}
+The following subsections provide an overview of the available Data Center architectures within the \emph{GreenCloud} simulator.
+
+\subsubsection{Two-tier Data Center architecture}
+The two-tier architecture is shown in figure \ref{fig:greencloud_twotier}. This architecture consists of an \emph{Access Network} where rack switches group several computing Servers through 1 \emph{GE} links and a \emph{Core Network} where L3 switches provide full mesh connectivity through 10 \emph{GE} links. This type of architecture supports up to 5500 nodes.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{chapters/images/greencloud_twotier.png}
+    \caption{GreenCloud two-tier architecture}
+    \label{fig:greencloud_twotier}
+\end{figure}
+
+\subsubsection{Three-tier Data Center architecture}
 
 \section{Energy model of switches, CPU, memory and disks}
 
