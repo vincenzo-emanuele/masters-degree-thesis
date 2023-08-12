@@ -10,7 +10,7 @@
 \newpage
 
 \section{Selection of GreenCloud} 
-Based on the comparisons made among the different analyzed simulators, each of them has its strengths and weaknesses. However, for the needs required in the study addressed by this thesis work, it is essential to prioritize aspects related to the energy consumption of the computing center and the accuracy of simulations. From the conducted comparisons, it is evident that \emph{GreenCloud} is the simulator that accurately considers these aspects as it is built on top of \emph{NS2} simulator and fully implements the \emph{TCP/IP} protocol. Moreover, \emph{GreenCloud} offers its users a set of features related to the simulation and to the energy consumption management. In particular, it is possible to choose between several pre-implemented Data Center architectures and energy models as well as to customize them. Furthermore \emph{GreenCloud} provides various workload scheduling and power saving models, allowing programmers to implement new ones. Despite \emph{GreenCloud} simulation times tend to be high, for the purposes of this study it is reasonable to prioritize granularity over performance. Therefore, the study will continue using \emph{GreenCloud} as the reference tool for the simulations to be conducted.
+Based on the comparisons made among the different analyzed simulators, each of them has its strengths and weaknesses. However, for the needs required in the study addressed by this thesis work, it is essential to prioritize aspects related to the energy consumption of the computing center and the accuracy of simulations. From the conducted comparisons, it is evident that \emph{GreenCloud} is the simulator that accurately considers these aspects as it is built on top of \emph{NS2} simulator and fully implements the \emph{TCP/IP} protocol. Moreover, \emph{GreenCloud} offers its users a set of features related to the simulation and to the energy consumption management. In particular, it is possible to choose between several pre-implemented Data Center architectures and energy models as well as to customize them. Furthermore \emph{GreenCloud} provides various workload scheduling and power saving models, allowing programmers to implement new ones. Despite \emph{GreenCloud} simulation times tend to be high, for the purposes of this study it is reasonable to prioritize granularity over performance. Therefore, the study will continue using \emph{GreenCloud} as the reference tool for the simulations to be conducted. The following sections provide a description of various aspects of \emph{GreenCloud} based on the work by \emph{Kliazovich et al} \cite{kliazovich2012greencloud}.
 
 
 \section{Available Data Center architectures}
@@ -20,10 +20,10 @@ As mentioned in the previous section, \emph{GreenCloud} provides several Data Ce
     \item \textbf{Switches and links: } they implement the interconnection between the Servers in the Data Center. The type and the quality of these devices influences the transmission rate, anyway the costs of such devices need to be taken into account. Switches usually support either 1 \emph{GE (Gigabit Ethernet)} or 10 \emph{GE} as transmission rates, while links usually support 10 \emph{Mb/s}, 100 \emph{Mb/s}, and 1 \emph{Gb/s} as transmission rates;
     \item \textbf{Workloads: } the representation of tasks to be executed that consist of two components, computational and communicational. The computational part specifies the required amount of computing resources, measured in \emph{MIPS} or \emph{FLOPS}, and the duration of resource allocation. On the other hand, the communicational component of the workload entails the quantity and dimensions of data transfers essential before, during, and after the workload execution.
 \end{itemize}
-The following subsections provide an overview of the available Data Center architectures within the \emph{GreenCloud} simulator.
+The following subsections provide an overview of the available Data Center architectures within the \emph{GreenCloud} simulator. Since, as mentioned in the previous chapter, this simulator is based on \emph{NS2}, it is possible to customize the \emph{Data Center} architecture. 
 
 \subsubsection{Two-tier Data Center architecture}
-The two-tier architecture is shown in figure \ref{fig:greencloud_twotier}. This architecture consists of an \emph{Access Network} where rack switches group several computing Servers through 1 \emph{GE} links and a \emph{Core Network} where L3 switches provide full mesh connectivity through 10 \emph{GE} links. This type of architecture supports up to 5500 nodes.
+Two-tier architecture is shown in figure \ref{fig:greencloud_twotier}. This architecture consists of an \emph{Access Network} layer where rack switches group several computing Servers through 1 \emph{GE} links and a \emph{Core Network} layer where L3 switches provide full mesh connectivity through 10 \emph{GE} links. This type of architecture supports up to 5500 nodes.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{chapters/images/greencloud_twotier.png}
@@ -32,10 +32,29 @@ The two-tier architecture is shown in figure \ref{fig:greencloud_twotier}. This 
 \end{figure}
 
 \subsubsection{Three-tier Data Center architecture}
+Three-tier architecture is shown in figure \ref{fig:greencloud_threetier}. This architecture consists of an \emph{Access Network} layer where rack switches group several computing Servers through 1 \emph{GE} links, an \emph{Aggregation Network} and a \emph{Core Network} where L3 switches provide full mesh connectivity through 10 \emph{GE} links. This type of architecture is the most commonly used nowadays.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{chapters/images/greencloud_threetier.png}
+    \caption{GreenCloud three-tier architecture}
+    \label{fig:greencloud_threetier}
+\end{figure}
+
+\subsubsection{Three-tier high-speed Data Center architecture}
+Three-tier high-speed architecture is shown in figure \ref{fig:greencloud_threetierhs}. This architecture is analogous to the three-tier architecture except it employs 100 \emph{GE} links in the \emph{Aggregation Network} and \emph{Core Network} instead of 10 \emph{GE} ones. Moreover, it consists of only two L3 Switches in the \emph{Core Network} instead of 4.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{chapters/images/greencloud_threetierhs.png}
+    \caption{GreenCloud three-tier high-speed architecture}
+    \label{fig:greencloud_threetierhs}
+\end{figure}
+
+\section{Available power saving models}
+
 
 \section{Energy model of switches, CPU, memory and disks}
 
-\section{Available power saving models}
 
 \section{Workload scheduling algorithms comparison} 
     
