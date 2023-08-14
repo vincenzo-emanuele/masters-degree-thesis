@@ -51,10 +51,31 @@ Three-tier high-speed architecture is shown in figure \ref{fig:greencloud_threet
 \end{figure}
 
 \section{Available power saving models}
+Two power saving models are available within the \emph{GreenCloud} simulator, namely \emph{Dynamic Voltage and Frequency Scaling (DVFS)} which makes the energy consumption of servers proportional to their operating frequency and \emph{Dynamic Network Shutdown (DNS)} which places idle servers into a sleep mode. The power savings achieved through these techniques are not negligible. According to \cite{kliazovich2012greencloud} the use of \emph{DVFS} results in a power savings of 4\%, the use of \emph{DNS} leads to a savings of 63\%, and the combined use of both techniques results in a savings of 65\%. It is evident that the most significant contribution comes from the utilization of \emph{DNS}, as an active server consumes a considerable amount of energy that does not scale with the operating frequency.
 
+\section{Energy model of servers, switches, memory and disks}
+Since \emph{GreenCloud} aims to be suitable for energy management, the authors provided the energy models related to the components of the \emph{Data Center} architecture. The following subsections present the energy models described in \cite{kliazovich2012greencloud} for each described component.
+\subsubsection{Servers}
+Assuming that \(f\) is the operating frequency of the CPU, \(P_fixed\) is the fixed energy consumption that does not scale with \(f\) and \(P_f\) is the CPU-dependent energy consumption, the total energy consumption of a server is calculated as follows (equation \ref{eq:server_energy}):
+\begin{equation} \label{eq:server_energy}
+    P_{server} = P_{fixed} + P_f \cdot f^3
+\end{equation}
+\subsubsection{Switches}
+The power consumption model for switches is illustrated in \cite{makaratzis2018energy} and is described by the following equation (equation \ref{eq:switch_energy}):
+\begin{equation} \label{eq:switch_energy}
+    P_{switch} = P_{chassis} + n_cP_{linecard} + \sum_{r=1}^{R} n^r_pP^r_pu^r_p,
+\end{equation}
+where \(P_{chassis}\) is the energy consumed by the switch hardware, \(n_c\) is the number of line cards, \(n_p^r\) is the number of ports running at rate \(r\),  \(P_{linecard}\) is the energy consumed by a linecard, \(P_p^r\) is the energy consumed by a port running at rate \(r\) and \(u_p^r\) represents a port utilization, defined as follows (equation \ref{eq:port_utilization}):
+\begin{equation} \label{eq:port_utilization}
+    u_p = \frac{1}{T} \int_{t}^{t+T} \frac{B_p(t)}{C_p} dt = \frac{1}{T\cdot C_p} \int_{t}^{t+T} B_p(t) dt,
+\end{equation}
+where \(B_p(t)\) is an instantaneous throughput at the port's link at the time \(t\), \(C_p\) is the link capacity, and \(T\) is a measurement interval. 
+\subsubsection{Memory and disks}
+\emph{GreenCloud} implements a simple energy model for memory and disks as it allows to choose between the idle and the maximum power of these components resulting respectively in the minimum and the maximum consumption. 
 
-\section{Energy model of switches, CPU, memory and disks}
+\section{Workload scheduling algorithms} 
+The choice of the scheduling algorithm significantly affects the energy consumption of the data center. As previously mentioned, \emph{GreenCloud} provides various scheduling algorithms and, due to its open-source nature, allows developers to create new ones. This section provides an overview of the algorithms available within the simulator and conducts a comparison among them.
+\subsection{Algorithms description}
 
-
-\section{Workload scheduling algorithms comparison} 
+\subsection{Algorithms comparison}
     
