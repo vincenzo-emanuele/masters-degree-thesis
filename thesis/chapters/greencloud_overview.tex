@@ -13,7 +13,7 @@
 Based on the comparisons made among the different analyzed simulators, each of them has its strengths and weaknesses. However, for the needs required in the study addressed by this thesis work, it is essential to prioritize aspects related to the energy consumption of the computing center and the accuracy of simulations. From the conducted comparisons, it is evident that \emph{GreenCloud} is the simulator that accurately considers these aspects as it is built on top of \emph{NS2} simulator and fully implements the \emph{TCP/IP} protocol. Moreover, \emph{GreenCloud} offers its users a set of features related to the simulation and to the energy consumption management. In particular, it is possible to choose between several pre-implemented Data Center architectures and energy models as well as to customize them. Furthermore \emph{GreenCloud} provides various workload scheduling and power saving models, allowing programmers to implement new ones. Despite \emph{GreenCloud} simulation times tend to be high, for the purposes of this study it is reasonable to prioritize granularity over performance. Therefore, the study will continue using \emph{GreenCloud} as the reference tool for the simulations to be conducted. The following sections provide a description of various aspects of \emph{GreenCloud} based on the work by \emph{Kliazovich et al} \cite{kliazovich2012greencloud}.
 
 
-\section{Available Data Center architectures}
+\section{Available Data Center architectures} \label{chapter:architectures}
 As mentioned in the previous section, \emph{GreenCloud} provides several Data Centers architectures. The implemented architectures consist of various components, described as follows:
 \begin{itemize}
     \item \textbf{Servers: } single core nodes with a fixed processing power limit expressed in \emph{MIPS} (million instructions per second) or \emph{FLOPS} (floating point operations per second) that are responsible for task execution. These components are organized in racks and the architecture includes the presence of a Top-of-Rack switch that connects them to the access layer of the architecture;
@@ -76,6 +76,42 @@ where \(B_p(t)\) is an instantaneous throughput at the port's link at the time \
 \section{Workload scheduling algorithms} 
 The choice of the scheduling algorithm significantly affects the energy consumption of the data center. As previously mentioned, \emph{GreenCloud} provides various scheduling algorithms and, due to its open-source nature, allows developers to create new ones. This section provides an overview of the algorithms available within the simulator and conducts a comparison among them.
 \subsection{Algorithms description}
-
+The \emph{GreenCloud} simulator provides the following scheduling algorithms: 
+\begin{itemize}
+    \item \textbf{Green: } this energy-aware scheduler groups the workload onto the fewest number of computing servers possible;
+    \item \textbf{RoundRobin: } it cyclically distributes the tasks across a set of servers for a fixed time slice. Once the time elapses, this scheduler moves to the next task;
+    \item \textbf{Random: } it allocates tasks by randomly choosing servers;
+    \item \textbf{RAND-DENS and BEST-DENS: } they aim to reduce the energy usage of the Data Center by choosing the most suitable computing resources for tasks execution. This selection is based on two parameters, namely the load level and the communication potential of Data Center components, defined as the available end-to-end bandwidth that specific servers or groups of servers can access through the Data Center \cite{kliazovich2013dens};
+    \item \textbf{HEROS: } it allocates tasks to a server based on a score computed through a decision function based on two subfunctions, namely the \emph{server selection function} and the \emph{communication potential function}. The server selection function is based on the idea that the power usage of different hardware can vary a lot in terms of how much energy it uses and how it behaves, while the communication potential function is similar to the \emph{DENS} communication potential function but it uses the actual link load instead of the queue buffer size \cite{guzek2015heros}.
+\end{itemize}
 \subsection{Algorithms comparison}
-    
+In order to evaluate the performance of these algorithms, several simulations were performed using \emph{GreenCloud}. These simulations model\ the scenario where a specific amount of computational work is requested by a certain number of users and fulfilled by a specific number of servers within a given timeframe. In particular, all simulations have been executed with the same parameters described below:
+\begin{itemize}
+    \item \textbf{Architecture: } a three-tier debug architecture was utilized, differing only from the three-tier architecture described in Section \ref{chapter:architectures} in terms of the number of components comprising the data center. Specifically, 144 servers, 3 switches at the access layer, 2 switches at the aggregation layer, and one switch at the core layer were employed;
+    \item \textbf{Number of users: } due to simulation time constraints, only two users were instantiated;
+    \item \textbf{Processing power (MIPS): } the total processing power required by the tasks to be executed amounts to 600000 \emph{MIPS};
+    \item \textbf{Simulation time: } the simulation models a scenario in which the servers process client requests for 60 seconds;
+    \item \textbf{Adopted power saving models: } the power saving model adopted for switches is \emph{DVFS}, while for servers both \emph{DVFS} and \emph{DNS} were employed.
+\end{itemize}
+The \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/tree/main/scheduling\_algorithms\_comparison/simulations}{reports} provided by \emph{GreenCloud} regarding these simulations can be found on the \emph{GitHub} \href{https://github.com/vincenzo-emanuele/masters-degree-thesis}{repository} related to this research work, where each directory contains the files generated for each scheduling algorithm. Furthermore, an \emph{xlsx} file has been generated, containing a time-stamped log of the overall energy consumption and \emph{PUE} of the Data Center throughout the entire simulation, for each described scheduling algorithm. In order to calculate the time-stamped log of the energy consumption, it was necessary to make specific modifications to the simulator code, which will be adequately detailed in Section \ref{section:greencloud_mod}. Additionally, computing the Power Usage Effectiveness (PUE) involved the utilization of an external tool, discussed further in Section \ref{section:puecalculation_tool}. In order to provide an immediate understanding of the behavior of these aforementioned algorithms, three charts (one for energy consumption, one for \emph{PUE} and one that summarizes the total energy consumed during the simulation) have been produced (figures \ref{fig:schedulers_energyconsumption}, \ref{fig:schedulers_pue} and \ref{fig:schedulers_totalconsumption}). \\
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{chapters/images/schedulers_energyconsumption.png}
+    \caption{Scheduling algorithms energy consumption}
+    \label{fig:schedulers_energyconsumption}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{chapters/images/schedulers_energyconsumption.png}
+    \caption{Scheduling algorithms PUE}
+    \label{fig:schedulers_pue}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{chapters/images/schedulers_totalconsumption.png}
+    \caption{Scheduling algorithms PUE}
+    \label{fig:schedulers_totalconsumption}
+\end{figure}
+As indicated by the charts, it is evident that the algorithms that perform better are \emph{BEST-DENS}, \emph{GREEN}, and \emph{HEROS} as they manage to achieve an energy-saving of approximately 22\% compared to the other three algorithms.
