@@ -11,6 +11,19 @@
 
 \section{Changes implemented in GreenCloud}\label{section:greencloud_mod}
 
+\section{Data Center Design}
+
+\subsection{Architecture}
+One of the most popular architectures in the field of Data Centers is the three-tier architecture, explained in Section \ref{chapter:architectures}. \emph{GreenCloud} offers this architecture, comprising 1536 servers, 512 rack switches, 64 switches at the access layer, 16 switches at the aggregation layer, and 8 L3 switches at the core layer. However, this type of architecture comes with significant overhead for simulations, since, as confirmed by the experiments conducted, the simulation of a 30-minute scenario can take up to 24 hours to complete. In order to maintain reasonable simulation times, the "debug" variant of this architecture was employed. This variant comprises 144 servers, 3 rack switches, 3 switches in the access layer, 2 switches in the aggregation layer, and 1 switch in the core layer. 
+
+\subsection{Components specifications}
+Inspecting \emph{GreenCloud}'s source code reveals that servers in the three-tier debug architecture feature a 4-core CPU, 8GB RAM, and a 500GB hard drive. Each CPU core provides a computing power of 150015 \emph{MIPS} resulting in a total of 600060 \emph{MIPS} per server that consumes 201 W under maximum load and 50\% of the maximum (100.5 W) during idle periods. Furthermore, the energy profile of the aggregation layer switches is characterized by a power consumption of 1558 W for chassis, 1212 W for line cards, and 27 W for ports. Finally, in the access layer, 1 GE links are employed, while in the aggregation and core layers, 10 GE links are used.
+
+\subsection{IT capacity calculation}
+
+\subsection{Power and cooling parameters}
+
+
 \section{Executed simulations}
 
 \subsection{Normal load simulation}
