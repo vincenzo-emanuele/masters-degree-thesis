@@ -2,7 +2,6 @@
 %\addcontentsline{toc}{chapter}{Introduzione}
 \chapter{Research Study} \label{chapter:research_study}
 \markboth{Research Study}{}
-% [titolo ridotto se non ci dovesse stare] {titolo completo}
 
 \begin{citazione}
 
@@ -12,14 +11,17 @@
 \section{Changes implemented in GreenCloud}\label{section:greencloud_mod}
 
 \section{Data Center Design}
+In order to perform extract accurate data from simulations, it is necessary to understand various aspects of the Data Center where these simulations are carried out. The goal of the following subsections is to describe its key aspects, such as architecture and component specifications. Furthermore, aspects related to configuring power and cooling parameters for the data center will be addressed, and the methods used to estimate the maximum Data Center capacity will be illustrated.
 
 \subsection{Architecture}
-One of the most popular architectures in the field of Data Centers is the three-tier architecture, explained in Section \ref{chapter:architectures}. \emph{GreenCloud} offers this architecture, comprising 1536 servers, 512 rack switches, 64 switches at the access layer, 16 switches at the aggregation layer, and 8 L3 switches at the core layer. However, this type of architecture comes with significant overhead for simulations, since, as confirmed by the experiments conducted, the simulation of a 30-minute scenario can take up to 24 hours to complete. In order to maintain reasonable simulation times, the "debug" variant of this architecture was employed. This variant comprises 144 servers, 3 rack switches, 3 switches in the access layer, 2 switches in the aggregation layer, and 1 switch in the core layer. 
+One of the most popular architectures in the field of Data Centers is the three-tier architecture, explained in Section \ref{chapter:architectures}. \emph{GreenCloud} offers this architecture, comprising 1536 servers, 64 switches at the access layer, 16 switches at the aggregation layer, and 8 switches at the core layer. However, this type of architecture comes with significant overhead for simulations, since, as confirmed by the experiments conducted, the simulation of a 30-minute scenario can take up to 24 hours to complete. In order to maintain reasonable simulation times, the "debug" variant of this architecture was employed. This variant comprises 144 servers, 3 switches at the access layer, 2 switches at the aggregation layer, and 1 switch at the core layer. 
 
-\subsection{Components specifications}
-Inspecting \emph{GreenCloud}'s source code reveals that servers in the three-tier debug architecture feature a 4-core CPU, 8GB RAM, and a 500GB hard drive. Each CPU core provides a computing power of 150015 \emph{MIPS} resulting in a total of 600060 \emph{MIPS} per server that consumes 201 W under maximum load and 50\% of the maximum (100.5 W) during idle periods. Furthermore, the energy profile of the aggregation layer switches is characterized by a power consumption of 1558 W for chassis, 1212 W for line cards, and 27 W for ports. Finally, in the access layer, 1 GE links are employed, while in the aggregation and core layers, 10 GE links are used.
+\subsection{Components specifications} \label{subsection:components_spec}
+Inspecting \emph{GreenCloud}'s source code reveals that servers in the three-tier debug architecture feature a 4-core CPU, 8GB RAM, and a 500GB hard drive. Each CPU core provides a computing power of 150015 \emph{MIPS} resulting in a total of 600060 \emph{MIPS} per server that consumes 201 W under maximum load and 50\% of the maximum (100.5 W) during idle periods. Furthermore, the energy profile of the core and aggregation layer switches is characterized by a power consumption of 1558 W for chassis, 1212 W for line cards, and 27 W for ports, while for the access layer switches, the power consumption amounts to 146 W for chassis and 0.42 W for ports. Finally, in the access layer, 1 GE links are employed, while in the aggregation and core layers, 10 GE links are used. These informations have been gathered from the \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/tree/main/greencloud_modified_src}{source code} of the \emph{GreenCloud} simulator, available in its modified version as described in Section \ref{section:greencloud_mod}, on the \emph{GitHub} repository related to this research work. 
 
 \subsection{IT capacity calculation}
+The calculation of the energy required by the Data Center was carried out by considering the maximum consumption of its components. In particular, as described in Section \ref{subsection:components_spec}, the maximum consumption of a single server is 201 W when its CPU operates at 100\% load. Since the architecture consists of 144 servers, the maximum amount of energy consumed by the servers totals 28944 W. Concerning the switches, on the other hand, the documentation of the simulator and the source code did not provide a clear indication of their maximum achievable energy consumption. To overcome this issue, multiple simulations were carried out with all energy-saving mechanisms disabled, ensuring that switches operated at their highest power levels. These simulations demonstrated that core and aggregation layer switches consume 2824 W, while access layer switches consume 166 W. Therefore, the 3 switches in the access layer collectively consume 498 W, the 2 switches in the aggregation layer consume 5648 W, and the single switch in the core layer consumes 2824 W, resulting in a total of 8970 W consumed by all switches in the architecture. By summing up the consumption of servers and switches, the total power consumption amounts to 37914 W.
+
 
 \subsection{Power and cooling parameters}
 
