@@ -19,12 +19,25 @@ One of the most popular architectures in the field of Data Centers is the three-
 \subsection{Components specifications} \label{subsection:components_spec}
 Inspecting \emph{GreenCloud}'s source code reveals that servers in the three-tier debug architecture feature a 4-core CPU, 8GB RAM, and a 500GB hard drive. Each CPU core provides a computing power of 150015 \emph{MIPS} resulting in a total of 600060 \emph{MIPS} per server that consumes 201 W under maximum load and 50\% of the maximum (100.5 W) during idle periods. Furthermore, the energy profile of the core and aggregation layer switches is characterized by a power consumption of 1558 W for chassis, 1212 W for line cards, and 27 W for ports, while for the access layer switches, the power consumption amounts to 146 W for chassis and 0.42 W for ports. Finally, in the access layer, 1 GE links are employed, while in the aggregation and core layers, 10 GE links are used. These informations have been gathered from the \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/tree/main/greencloud_modified_src}{source code} of the \emph{GreenCloud} simulator, available in its modified version as described in Section \ref{section:greencloud_mod}, on the \emph{GitHub} repository related to this research work. 
 
-\subsection{IT capacity calculation}
+\subsection{IT capacity calculation} \label{subsection:it_capacity}
 The calculation of the energy required by the Data Center was carried out by considering the maximum consumption of its components. In particular, as described in Section \ref{subsection:components_spec}, the maximum consumption of a single server is 201 W when its CPU operates at 100\% load. Since the architecture consists of 144 servers, the maximum amount of energy consumed by the servers totals 28944 W. Concerning the switches, on the other hand, the documentation of the simulator and the source code did not provide a clear indication of their maximum achievable energy consumption. To overcome this issue, multiple simulations were carried out with all energy-saving mechanisms disabled, ensuring that switches operated at their highest power levels. These simulations demonstrated that core and aggregation layer switches consume 2824 W, while access layer switches consume 166 W. Therefore, the 3 switches in the access layer collectively consume 498 W, the 2 switches in the aggregation layer consume 5648 W, and the single switch in the core layer consumes 2824 W, resulting in a total of 8970 W consumed by all switches in the architecture. By summing up the consumption of servers and switches, the total power consumption amounts to 37914 W.
 
 
 \subsection{Power and cooling parameters}
-
+Since \emph{GreenCloud} does not incorporate the \emph{PUE} calculation feature, an online \href{https://www.se.com/ww/en/work/solutions/system/s1/data-center-and-network-systems/trade-off-tools/data-center-efficiency-and-pue-calculator/}{tool} provided by \emph{Schneider Electric SE} was employed for this purpose. This tool requires several details related to the cooling system for \emph{PUE} calculation, configured as follows:
+\begin{itemize}
+    \item \textbf{Data Center IT Capacity:} as mentioned in Section \ref{subsection:it_capacity}, the total energy consumption of the data center is approximately 37914 W. Designing the Data Center to accommodate and cool an energy load 20\% higher than the maximum capacity, an IT capacity of 50 kW was set;
+    \item \textbf{Electricity Cost per kWh:} since this research study is not aimed at investigating Data Centers costs, this parameter is not relevant;
+    \item \textbf{UPS System:} typical;
+    \item \textbf{Power Redundancy:} dual path power;
+    \item \textbf{Cooling System:} air cooled;
+    \item \textbf{Chiller:} N/A;
+    \item \textbf{Air Distribution:} perimeter cooling;
+    \item \textbf{CRAC/CRAH Redundancy:} single path CRAC/CRAH;
+    \item \textbf{Heat Rejection Redundancy:} single path heat rejection;
+    \item \textbf{Water-side Economizer Time:} N/A
+    \item \textbf{Design Details:} Standby Generator, Optimized Rack Layout, Blanking Panels, UPS in Eco Mode, Energy Efficient Lighting, Coordinated CRAC/CRAH.
+\end{itemize}
 
 \section{Executed simulations}
 
