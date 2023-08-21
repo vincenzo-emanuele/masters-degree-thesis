@@ -12,7 +12,58 @@
 \section{Selection of GreenCloud} 
 Based on the comparisons made among the different analyzed simulators, each of them has its strengths and weaknesses. However, for the needs required in the study addressed by this thesis work, it is essential to prioritize aspects related to the energy consumption of the computing center and the accuracy of simulations. From the conducted comparisons, it is evident that \emph{GreenCloud} is the simulator that accurately considers these aspects as it is built on top of \emph{NS2} simulator and fully implements the \emph{TCP/IP} protocol. Moreover, \emph{GreenCloud} offers its users a set of features related to the simulation and to the energy consumption management. In particular, it is possible to choose between several pre-implemented Data Center architectures and energy models as well as to customize them. Furthermore \emph{GreenCloud} provides various workload scheduling and power saving models, allowing programmers to implement new ones. Despite \emph{GreenCloud} simulation times tend to be high, for the purposes of this study it is reasonable to prioritize granularity over performance. Therefore, the study will continue using \emph{GreenCloud} as the reference tool for the simulations to be conducted. The following sections provide a description of various aspects of \emph{GreenCloud} based on the work by \emph{Kliazovich et al} \cite{kliazovich2012greencloud}.
 
+\section{GreenCloud project}
+In the following subsections, two aspects of the \emph{GreenCloud} simulator project will be covered, namely the simulator source code structure and the description of the output files that are generated upon simulation completion.  
+\subsection{Simulator source code}
+The \emph{GreenCloud} source code is organized into three directories: \emph{dashboard}, \emph{ns2/greencloud}, and \emph{scripts}:
+\begin{itemize}
+\item \emph{dashboard} contains \emph{HTML}, \emph{CSS}, and \emph{JS} code related to the simulation report page;
+\item \emph{ns2/greencloud} contains \emph{C++} code that implements the core functionalities of the simulator, the energy models of the data center components, scheduling algorithms, and energy-saving models;
+\item \emph{scripts} includes various \emph{TCL} and \emph{Bash} scripts that facilitate the modification of simulation parameters and allows to create simulation reports.
+\end{itemize}
+Since the scripts in the \emph{scripts} directory require access to various variables within the \emph{C++} classes to modify and read them for constructing logs, each class associates each variable with a symbolic name using the \emph{bind} method. This allows the scripts to access these variables.
+For instance, the class \emph{DcHostClass} defined in \emph{ns2/greencloud/dchost.cc} exposes several variables related to a Data Center host, including the current load, current energy consumption, and the total consumed energy.
 
+\subsection{Simulation output files}
+At the end of a simulation, GreenCloud generates various report files in TR format, that provide a detailed exploration of different aspects of the conducted simulations. Specifically, the following files are produced:
+\begin{itemize}
+    \item \emph{dcLoad.tr: }
+    \item \emph{dcLoadMem.tr: }
+    \item \emph{dcLoadStor.tr: }
+    \item \emph{dcPower.tr: } 
+    \item \emph{dcServLoad.tr: }
+    \item \emph{dcServLoadMem.tr: }
+    \item \emph{dcServLoadStor.tr: }
+    \item \emph{dcServTasks.tr: }
+    \item \emph{dcServTasksFailed.tr: }
+    \item \emph{dcVmLoad.tr: }
+    \item \emph{dcVmLoadMem.tr: }
+    \item \emph{dcVmLoadStor.tr: }
+    \item \emph{dcVmTasks.tr: }
+    \item \emph{dcVmTasksFailed.tr: }
+    \item \emph{eAccessSwitches.tr: }
+    \item \emph{eAggrSwitches.tr: }
+    \item \emph{eCoreSwitches.tr: }
+    \item \emph{energySummary.tr: }
+    \item \emph{eServers.tr: }
+    \item \emph{link\_C1C2\_load.tr: }
+    \item \emph{link\_C2C1\_load.tr: }
+    \item \emph{link\_C2C3\_load.tr: }
+    \item \emph{link\_C3C2\_load.tr: }
+    \item \emph{link\_C3H\_load.tr: }
+    \item \emph{link\_HC3\_load\_time.tr: }
+    \item \emph{link\_HC3\_load.tr: }
+    \item \emph{loadSummary.tr: }
+    \item \emph{main.tr: }
+    \item \emph{parameters.tr: }
+    \item \emph{queue\_C3C2-0\_pkts.tr: }
+    \item \emph{queue\_HC3\_pkts\_avg.tr: }
+    \item \emph{queue\_HC3\_pkts\_time.tr: }
+    \item \emph{serv\_load\_time.tr: }
+    \item \emph{simulation.tr: }
+    \item \emph{taskSummary.tr: }
+    \item \emph{users.tr: }
+\end{itemize}
 \section{Available Data Center architectures} \label{chapter:architectures}
 As mentioned in the previous section, \emph{GreenCloud} provides several Data Centers architectures. The implemented architectures consist of various components, described as follows:
 \begin{itemize}
@@ -115,3 +166,4 @@ The \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/tree/main/s
     \label{fig:schedulers_totalconsumption}
 \end{figure}
 As indicated by the charts, it is evident that the algorithms that perform better are \emph{BEST-DENS}, \emph{GREEN}, and \emph{HEROS} as they manage to achieve an energy-saving of approximately 22\% compared to the other three algorithms.
+
