@@ -14,8 +14,8 @@ Based on the comparisons made among the different analyzed simulators, each of t
 
 \section{GreenCloud project}
 In the following subsections, two aspects of the \emph{GreenCloud} simulator project will be covered, namely the simulator source code structure and the description of the output files that are generated upon simulation completion.  
-\subsection{Simulator source code}
-The \emph{GreenCloud} source code is organized into three directories: \emph{dashboard}, \emph{ns2/greencloud}, and \emph{scripts}:
+\subsection{Simulator source code} \label{subsection:greencloud_code}
+The \emph{GreenCloud} source code is organized into three directories:\emph{dashboard}, \emph{ns2/greencloud}, and \emph{scripts}:
 \begin{itemize}
 \item \emph{dashboard} contains \emph{HTML}, \emph{CSS}, and \emph{JS} code related to the simulation report page;
 \item \emph{ns2/greencloud} contains \emph{C++} code that implements the core functionalities of the simulator, the energy models of the data center components, scheduling algorithms, and energy-saving models;
@@ -27,49 +27,62 @@ For instance, the class \emph{DcHostClass} defined in \emph{ns2/greencloud/dchos
 \subsection{Simulation output files}
 At the end of a simulation, GreenCloud generates various report files in TR format, that provide a detailed exploration of different aspects of the conducted simulations. Specifically, the following files are produced:
 \begin{itemize}
-    \item \emph{dcLoad.tr: }
-    \item \emph{dcLoadMem.tr: }
-    \item \emph{dcLoadStor.tr: }
-    \item \emph{dcPower.tr: } 
-    \item \emph{dcServLoad.tr: }
-    \item \emph{dcServLoadMem.tr: }
-    \item \emph{dcServLoadStor.tr: }
-    \item \emph{dcServTasks.tr: }
-    \item \emph{dcServTasksFailed.tr: }
-    \item \emph{dcVmLoad.tr: }
-    \item \emph{dcVmLoadMem.tr: }
-    \item \emph{dcVmLoadStor.tr: }
-    \item \emph{dcVmTasks.tr: }
-    \item \emph{dcVmTasksFailed.tr: }
-    \item \emph{eAccessSwitches.tr: }
-    \item \emph{eAggrSwitches.tr: }
-    \item \emph{eCoreSwitches.tr: }
-    \item \emph{energySummary.tr: }
-    \item \emph{eServers.tr: }
-    \item \emph{link\_C1C2\_load.tr: }
-    \item \emph{link\_C2C1\_load.tr: }
-    \item \emph{link\_C2C3\_load.tr: }
-    \item \emph{link\_C3C2\_load.tr: }
-    \item \emph{link\_C3H\_load.tr: }
-    \item \emph{link\_HC3\_load\_time.tr: }
-    \item \emph{link\_HC3\_load.tr: }
-    \item \emph{loadSummary.tr: }
-    \item \emph{main.tr: }
-    \item \emph{parameters.tr: }
-    \item \emph{queue\_C3C2-0\_pkts.tr: }
-    \item \emph{queue\_HC3\_pkts\_avg.tr: }
-    \item \emph{queue\_HC3\_pkts\_time.tr: }
-    \item \emph{serv\_load\_time.tr: }
-    \item \emph{simulation.tr: }
-    \item \emph{taskSummary.tr: }
-    \item \emph{users.tr: }
+    \item \emph{dcLoad.tr:} a time-stamped log of the Data Center load throughout the entire simulation;
+    \item \emph{dcLoadMem.tr:} a time-stamped log of the Data Center memory load throughout the entire simulation;
+    \item \emph{dcLoadStor.tr:} a time-stamped log of the Data Center storage load throughout the entire simulation;
+    \item \emph{dcPower.tr:} a time-stamped log of the power consumed by servers;
+    \item \emph{dcServLoad.tr:} it reports the average load for each server during the simulation;
+    \item \emph{dcServLoadMem.tr:} it reports the average memory load for each server during the simulation;
+    \item \emph{dcServLoadStor.tr:} it reports the average storage load for each server during the simulation;
+    \item \emph{dcServTasks.tr:} it reports the average number of submitted tasks per server;
+    \item \emph{dcServTasksFailed.tr:} it reports the average number of failed tasks per server;
+    \item \emph{dcVmLoad.tr:} it reports the average load for each VM during the simulation;
+    \item \emph{dcVmLoadMem.tr:} it reports the average memory load for each VM during the simulation;
+    \item \emph{dcVmLoadStor.tr:} it reports the average storage load for each VM during the simulation;
+    \item \emph{dcVmTasks.tr:} it reports the average number of submitted tasks for each VM during the simulation;
+    \item \emph{dcVmTasksFailed.tr:} it reports the average number of failed tasks for each VM during the simulation;
+    \item \emph{eAccessSwitches.tr:} it reports the amount of energy consumed by each access layer switch during the simulation;
+    \item \emph{eAggrSwitches.tr:} it reports the amount of energy consumed by each aggregation layer switch during the simulation;
+    \item \emph{eCoreSwitches.tr:} it reports the amount of energy consumed by each core layer switch during the simulation;
+    \item \emph{energySummary.tr:} it reports the amount of energy consumed by all switches during the simulation;
+    \item \emph{eServers.tr:} it reports the amount of energy consumed by each server during the simulation;
+    \item \emph{link\_C1C2\_load.tr:} it reports the average load on network links connecting core switches to aggregation switches in the downlink;
+    \item \emph{link\_C2C1\_load.tr:} it reports the average load on network links connecting aggregation switches to core switches in the uplink;
+    \item \emph{link\_C2C3\_load.tr:} it reports the average load on network links connecting aggregation switches to Top-of-Rack (ToR) switches in the downlink;
+    \item \emph{link\_C3C2\_load.tr:} it reports the average load on network links connecting Top-of-Rack (ToR) switches to aggregation switches in the uplink;
+    \item \emph{link\_C3H\_load.tr:} it reports the average load on network links connecting computing servers to thier Top-of-Rack (ToR) switches in the downlink;
+    \item \emph{link\_HC3\_load\_time.tr:} it reports the average load on network links connecting computing servers to thier Top-of-Rack (ToR) switches in the uplink; 
+    \item \emph{link\_HC3\_load.tr:} it reports the load dynamics of a single link connecting a given server to its Top-of-Rack (ToR) switch in the uplink; 
+    \item \emph{loadSummary.tr:} it reports the Data Center average load;
+    \item \emph{parameters.tr:} it contains a summary of the input simulation parameters;
+    \item \emph{queue\_C3C2-0\_pkts.tr:} it reports the queue size in packets on network links connecting Top-of-Rack (ToR) switches to aggregation switches in the uplink;
+    \item \emph{queue\_HC3\_pkts\_avg.tr:} it reports the average queue size in packets on network links connecting computing servers to their Top-of-Rack (ToR) switches in the uplink;
+    \item \emph{queue\_HC3\_pkts\_time.tr:} it reports the queue load dynamics in packets of a single link connecting a given server to its Top-of-Rack (ToR) switch in the uplink;
+    \item \emph{serv\_load\_time.tr:} a time-stamped log of the servers load throughout the entire simulation;
+    \item \emph{simulation.tr:} it reports the simulation duration;
+    \item \emph{taskSummary.tr:} it reports a summary of executed and failed tasks;
+    \item \emph{users.tr:} it reports several Data Center users statistics.
 \end{itemize}
+The information about these files is obtained from the descriptions provided in the \emph{dashboard/graph-definitions.js} file. To access a more immediate summary of the conducted simulations, the \emph{dashboard/dashboard.html} file can be viewed using a web browser. This webpage presents essential simulation details along with various charts, as illustrated in figures \ref{fig:greencloud_energy} and \ref{fig:greencloud_overall}. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{chapters/images/greencloud_energy.png}
+    \caption{GreenCloud energy consumption chart}
+    \label{fig:greencloud_energy}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{chapters/images/greencloud_overall.png}
+    \caption{GreenCloud overall statistics charts (partial)}
+    \label{fig:greencloud_overall}
+\end{figure}
 \section{Available Data Center architectures} \label{chapter:architectures}
 As mentioned in the previous section, \emph{GreenCloud} provides several Data Centers architectures. The implemented architectures consist of various components, described as follows:
 \begin{itemize}
-    \item \textbf{Servers: } single core nodes with a fixed processing power limit expressed in \emph{MIPS} (million instructions per second) or \emph{FLOPS} (floating point operations per second) that are responsible for task execution. These components are organized in racks and the architecture includes the presence of a Top-of-Rack switch that connects them to the access layer of the architecture;
-    \item \textbf{Switches and links: } they implement the interconnection between the Servers in the Data Center. The type and the quality of these devices influences the transmission rate, anyway the costs of such devices need to be taken into account. Switches usually support either 1 \emph{GE (Gigabit Ethernet)} or 10 \emph{GE} as transmission rates, while links usually support 10 \emph{Mb/s}, 100 \emph{Mb/s}, and 1 \emph{Gb/s} as transmission rates;
-    \item \textbf{Workloads: } the representation of tasks to be executed that consist of two components, computational and communicational. The computational part specifies the required amount of computing resources, measured in \emph{MIPS} or \emph{FLOPS}, and the duration of resource allocation. On the other hand, the communicational component of the workload entails the quantity and dimensions of data transfers essential before, during, and after the workload execution.
+    \item \textbf{Servers:} single core nodes with a fixed processing power limit expressed in \emph{MIPS} (million instructions per second) or \emph{FLOPS} (floating point operations per second) that are responsible for task execution. These components are organized in racks and the architecture includes the presence of a Top-of-Rack switch that connects them to the access layer of the architecture;
+    \item \textbf{Switches and links:} they implement the interconnection between the Servers in the Data Center. The type and the quality of these devices influences the transmission rate, anyway the costs of such devices need to be taken into account. Switches usually support either 1 \emph{GE (Gigabit Ethernet)} or 10 \emph{GE} as transmission rates, while links usually support 10 \emph{Mb/s}, 100 \emph{Mb/s}, and 1 \emph{Gb/s} as transmission rates;
+    \item \textbf{Workloads:} the representation of tasks to be executed that consist of two components, computational and communicational. The computational part specifies the required amount of computing resources, measured in \emph{MIPS} or \emph{FLOPS}, and the duration of resource allocation. On the other hand, the communicational component of the workload entails the quantity and dimensions of data transfers essential before, during, and after the workload execution.
 \end{itemize}
 The following subsections provide an overview of the available Data Center architectures within the \emph{GreenCloud} simulator. Since, as mentioned in the previous chapter, this simulator is based on \emph{NS2}, it is possible to customize the \emph{Data Center} architecture. 
 
@@ -127,22 +140,22 @@ where \(B_p(t)\) is an instantaneous throughput at the port's link at the time \
 \section{Workload scheduling algorithms} 
 The choice of the scheduling algorithm significantly affects the energy consumption of the data center. As previously mentioned, \emph{GreenCloud} provides various scheduling algorithms and, due to its open-source nature, allows developers to create new ones. This section provides an overview of the algorithms available within the simulator and conducts a comparison among them.
 \subsection{Algorithms description}
-The \emph{GreenCloud} simulator provides the following scheduling algorithms: 
+The \emph{GreenCloud} simulator provides the following scheduling algorithms:
 \begin{itemize}
-    \item \textbf{Green: } this energy-aware scheduler groups the workload onto the fewest number of computing servers possible;
-    \item \textbf{RoundRobin: } it cyclically distributes the tasks across a set of servers for a fixed time slice. Once the time elapses, this scheduler moves to the next task;
-    \item \textbf{Random: } it allocates tasks by randomly choosing servers;
-    \item \textbf{RAND-DENS and BEST-DENS: } they aim to reduce the energy usage of the Data Center by choosing the most suitable computing resources for tasks execution. This selection is based on two parameters, namely the load level and the communication potential of Data Center components, defined as the available end-to-end bandwidth that specific servers or groups of servers can access through the Data Center \cite{kliazovich2013dens};
-    \item \textbf{HEROS: } it allocates tasks to a server based on a score computed through a decision function based on two subfunctions, namely the \emph{server selection function} and the \emph{communication potential function}. The server selection function is based on the idea that the power usage of different hardware can vary a lot in terms of how much energy it uses and how it behaves, while the communication potential function is similar to the \emph{DENS} communication potential function but it uses the actual link load instead of the queue buffer size \cite{guzek2015heros}.
+    \item \textbf{Green:} this energy-aware scheduler groups the workload onto the fewest number of computing servers possible;
+    \item \textbf{RoundRobin:} it cyclically distributes the tasks across a set of servers for a fixed time slice. Once the time elapses, this scheduler moves to the next task;
+    \item \textbf{Random:} it allocates tasks by randomly choosing servers;
+    \item \textbf{RAND-DENS and BEST-DENS:} they aim to reduce the energy usage of the Data Center by choosing the most suitable computing resources for tasks execution. This selection is based on two parameters, namely the load level and the communication potential of Data Center components, defined as the available end-to-end bandwidth that specific servers or groups of servers can access through the Data Center \cite{kliazovich2013dens};
+    \item \textbf{HEROS:} it allocates tasks to a server based on a score computed through a decision function based on two subfunctions, namely the \emph{server selection function} and the \emph{communication potential function}. The server selection function is based on the idea that the power usage of different hardware can vary a lot in terms of how much energy it uses and how it behaves, while the communication potential function is similar to the \emph{DENS} communication potential function but it uses the actual link load instead of the queue buffer size \cite{guzek2015heros}.
 \end{itemize}
 \subsection{Algorithms comparison}
 In order to evaluate the performance of these algorithms, several simulations were performed using \emph{GreenCloud}. These simulations model\ the scenario where a specific amount of computational work is requested by a certain number of users and fulfilled by a specific number of servers within a given timeframe. In particular, all simulations have been executed with the same parameters described below:
 \begin{itemize}
-    \item \textbf{Architecture: } a three-tier debug architecture was utilized, differing only from the three-tier architecture described in Section \ref{chapter:architectures} in terms of the number of components comprising the data center. Specifically, 144 servers, 3 switches at the access layer, 2 switches at the aggregation layer, and one switch at the core layer were employed;
-    \item \textbf{Number of users: } due to simulation time constraints, only two users were instantiated;
-    \item \textbf{Processing power (MIPS): } the total processing power required by the tasks to be executed amounts to 600000 \emph{MIPS};
-    \item \textbf{Simulation time: } the simulation models a scenario in which the servers process client requests for 60 seconds;
-    \item \textbf{Adopted power saving models: } the power saving model adopted for switches is \emph{DVFS}, while for servers both \emph{DVFS} and \emph{DNS} were employed.
+    \item \textbf{Architecture:} a three-tier debug architecture was utilized, differing only from the three-tier architecture described in Section \ref{chapter:architectures} in terms of the number of components comprising the data center. Specifically, 144 servers, 3 switches at the access layer, 2 switches at the aggregation layer, and one switch at the core layer were employed;
+    \item \textbf{Number of users:} due to simulation time constraints, only two users were instantiated;
+    \item \textbf{Processing power (MIPS):} the total processing power required by the tasks to be executed amounts to 600000 \emph{MIPS};
+    \item \textbf{Simulation time:} the simulation models a scenario in which the servers process client requests for 60 seconds;
+    \item \textbf{Adopted power saving models:} the power saving model adopted for switches is \emph{DVFS}, while for servers both \emph{DVFS} and \emph{DNS} were employed.
 \end{itemize}
 The \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/tree/main/scheduling\_algorithms\_comparison/simulations}{reports} provided by \emph{GreenCloud} regarding these simulations can be found on the \emph{GitHub} \href{https://github.com/vincenzo-emanuele/masters-degree-thesis}{repository} related to this research work, where each directory contains the files generated for each scheduling algorithm. Furthermore, an \emph{xlsx} file has been generated, containing a time-stamped log of the overall energy consumption and \emph{PUE} of the Data Center throughout the entire simulation, for each described scheduling algorithm. In order to calculate the time-stamped log of the energy consumption, it was necessary to make specific modifications to the simulator code, which will be adequately detailed in Section \ref{section:greencloud_mod}. Additionally, computing the Power Usage Effectiveness (PUE) involved the utilization of an external tool, discussed further in Section \ref{section:puecalculation_tool}. In order to provide an immediate understanding of the behavior of these aforementioned algorithms, three charts (one for energy consumption, one for \emph{PUE} and one that summarizes the total energy consumed during the simulation) have been produced (figures \ref{fig:schedulers_energyconsumption}, \ref{fig:schedulers_pue} and \ref{fig:schedulers_totalconsumption}). \\
 \begin{figure}[h]
