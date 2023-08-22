@@ -24,6 +24,20 @@ The \emph{GreenCloud} source code is organized into three directories:\emph{dash
 Since the scripts in the \emph{scripts} directory require access to various variables within the \emph{C++} classes to modify and read them for constructing logs, each class associates each variable with a symbolic name using the \emph{bind} method. This allows the scripts to access these variables.
 For instance, the class \emph{DcHostClass} defined in \emph{ns2/greencloud/dchost.cc} exposes several variables related to a Data Center host, including the current load, current energy consumption, and the total consumed energy.
 
+\subsection{Simulation input parameters}
+The executed simulations are highly customizable by users. Below are descriptions of some of the most important parameters along with the files in which they can be modified:
+\begin{itemize}
+    \item \textbf{SCHEDULER}: specifies the scheduling algorithm used. The available options are \emph{Green} \emph{RoundRobin}, \emph{Random}, \emph{HEROS}, \emph{RandDENS} and \emph{BestDENS}. This parameter can be set at line 9 of the \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/tree/main/greencloud\_modified\_src/run.sh}{run.sh} file;
+    \item \textbf{TOPOLOGY}: indicates the type of data center architecture. The possible choices are \emph{three-tier}, \emph{three-tier high-speed}, \emph{three-tier debug}, \emph{three-tier heterogenous debug} and \emph{three-tier heterogenous}. Although \emph{GreenCloud}-related literature mentions a two-tier architecture implementation, such implementation isn't found in the simulator's source code. This parameter can be set at line 10 of the \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/tree/main/greencloud\_modified\_src/run.sh}{run.sh} file.
+    \item \textbf{top(NCloudUser)}: specifies the number of data center users. It can be set at line 11 of the \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/blob/main/greencloud_modified_src/scripts/user.tcl}{user.tcl} script;
+    \item \textbf{serv(eDVFS\_enabled)} and \textbf{serv(eDNS\_enabled)}: indicate the usage of \emph{DVFS} and \emph{DNS} in Data Center servers. These can be set at lines 19 and 20 of the \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/blob/main/greencloud\_modified\_src/scripts/setup\_params.tcl}{setup\_params.tcl} script;
+    \item \textbf{switches(eDVFS\_enabled)} and \textbf{switches(eDNS\_enabled)}: indicate the usage of \emph{DVFS} and \emph{DNS} in data center switches. These can be set at lines 28 and 29 of the \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/blob/main/greencloud\_modified\_src/scripts/setup\_params.tcl}{setup\_params.tcl} script;
+    \item \textbf{task(mips)}, \textbf{task(memory)}, \textbf{task(storage)}, \textbf{task(size)}, \textbf{task(duration)}, \textbf{task(outputsize)}, and \textbf{task(intercom)}: Indicate various properties of tasks to be executed. In particular, \emph{task(mips)} signifies the required computation in MIPS, \emph{task(memory)} indicates required RAM in bytes, \emph{task(storage)} denotes required storage memory in bytes, \emph{task(duration)} specifies the computing deadline in seconds, \emph{task(outputsize)} represents the length of output upon task completion in bytes, and \emph{task(intercom)} describes the size of inter-task communication. These parameters can be set at lines 67-82 of the \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/blob/main/greencloud\_modified\_src/scripts/setup\_params.tcl}{setup\_params.tcl} script.
+
+
+
+\end{itemize}
+
 \subsection{Simulation output files}
 At the end of a simulation, GreenCloud generates various report files in TR format, that provide a detailed exploration of different aspects of the conducted simulations. Specifically, the following files are produced:
 \begin{itemize}
