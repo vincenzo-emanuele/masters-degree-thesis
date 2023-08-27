@@ -9,13 +9,7 @@
 \newpage
 
 \section{Changes implemented in GreenCloud}\label{section:greencloud_mod}
-The modifications made to the GreenCloud simulator's code aim to achieve a time-stamped log of the instantaneous overall energy consumption of the data center. While exploring the log files, it became apparent that such a report was missing. Therefore, it was necessary to construct it using the data provided by the simulator. As discussed in Subsection \ref{subsection:greencloud_code}, in order to enable scripts to access the variables provided by \emph{C++} classes and create simulation reports, a binding between these variables and symbolic names within the classes is necessary. Since the \emph{SwitchEnergyModel} class defined in the file \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/blob/main/greencloud_modified_src/ns2/greencloud/switchenergymodel.cc}{ns2/greencloud/switchenergymodel.cc} and responsible for modeling switch energy consumption, doesn't make the \emph{eCurrentRate\_} variable, representing instantaneous switch energy consumption, available to scripts, the initial modification made was to bind the \emph{eCurrentRate\_} variable to the symbolic name \emph{eCurrentRate\_}. Once that was done, within the \emph{record\_graphs} procedure (called every 100 milliseconds by the simulator to update data in report files) defined in the \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/blob/main/greencloud\_modified\_src/scripts/record.tcl}{scripts/record.tcl} script, an instantaneous energy consumption calculation for data center components was implemented. This was achieved using the \emph{eCurrentRate\_} variables related to servers and switches (lines 41-74). Given that this calculation occurs every 100 milliseconds, an instruction was added (line 79) to store the instantaneous energy consumption and its corresponding timestamp in a specifically created file. This log file is fundamental for the conducted research study as it provides an insight of the consumed energy throughout the whole simulation and allows to calculate PUE at specific moments facilitating the study of its fluctuations.
-
-
-
-
-
- 
+The modifications made to the \emph{GreenCloud} simulator's code aim to achieve a time-stamped log of the instantaneous overall energy consumption of the data center. While exploring the log files, it became apparent that such a report was missing. Therefore, it was necessary to construct it using the data provided by the simulator. As discussed in Subsection \ref{subsection:greencloud_code}, in order to enable scripts to access the variables provided by \emph{C++} classes and create simulation reports, a binding between these variables and symbolic names within the classes is necessary. Since the \emph{SwitchEnergyModel} class defined in the file \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/blob/main/greencloud_modified_src/ns2/greencloud/switchenergymodel.cc}{ns2/greencloud/switchenergymodel.cc} and responsible for modeling switch energy consumption, doesn't make the \emph{eCurrentRate\_} variable, representing instantaneous switch energy consumption, available to scripts, the initial modification made was to bind the \emph{eCurrentRate\_} variable to the symbolic name \emph{eCurrentRate\_}. Once that was done, within the \emph{record\_graphs} procedure (called every 100 milliseconds by the simulator to update data in report files) defined in the \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/blob/main/greencloud\_modified\_src/scripts/record.tcl}{scripts/record.tcl} script, an instantaneous energy consumption calculation for data center components was implemented. This was achieved using the \emph{eCurrentRate\_} variables related to servers and switches (lines 41-74). Given that this calculation occurs every 100 milliseconds, an instruction was added (line 79) to store the instantaneous energy consumption and its corresponding timestamp in a specifically created file. This log file is fundamental for the conducted research study as it provides an insight of the consumed energy throughout the whole simulation and allows to calculate \emph{PUE} at specific moments facilitating the study of its fluctuations.
 
 \section{Data Center Design}
 In order to perform extract accurate data from simulations, it is necessary to understand various aspects of the Data Center where these simulations are carried out. The goal of the following subsections is to describe its key aspects, such as architecture and component specifications. Furthermore, aspects related to configuring power and cooling parameters for the data center will be addressed, and the methods used to estimate the maximum Data Center capacity will be illustrated.
@@ -30,7 +24,7 @@ Inspecting \emph{GreenCloud}'s source code reveals that servers in the three-tie
 The calculation of the energy required by the Data Center was carried out by considering the maximum consumption of its components. In particular, as described in Section \ref{subsection:components_spec}, the maximum consumption of a single server is 201 W when its CPU operates at 100\% load. Since the architecture consists of 144 servers, the maximum amount of energy consumed by the servers totals 28944 W. Concerning the switches, on the other hand, the documentation of the simulator and the source code did not provide a clear indication of their maximum achievable energy consumption. To overcome this issue, multiple simulations were carried out with all energy-saving mechanisms disabled, ensuring that switches operated at their highest power levels. These simulations demonstrated that core and aggregation layer switches consume 2824 W, while access layer switches consume 166 W. Therefore, the 3 switches in the access layer collectively consume 498 W, the 2 switches in the aggregation layer consume 5648 W, and the single switch in the core layer consumes 2824 W, resulting in a total of 8970 W consumed by all switches in the architecture. By summing up the consumption of servers and switches, the total power consumption amounts to 37914 W.
 
 
-\subsection{Power and cooling parameters}
+\subsection{Power and cooling parameters} \label{subsection:powercooling}
 Since \emph{GreenCloud} does not incorporate the \emph{PUE} calculation feature, an online \href{https://www.se.com/ww/en/work/solutions/system/s1/data-center-and-network-systems/trade-off-tools/data-center-efficiency-and-pue-calculator/}{tool} provided by \emph{Schneider Electric SE} was employed for this purpose. This tool requires several details related to the cooling system for \emph{PUE} calculation, configured as follows:
 \begin{itemize}
     \item \textbf{Data Center IT Capacity:} as mentioned in Section \ref{subsection:it_capacity}, the total energy consumption of the data center is approximately 37914 W. Designing the Data Center to accommodate and cool an energy load 20\% higher than the maximum capacity, an IT capacity of 50 kW was set;
@@ -42,11 +36,40 @@ Since \emph{GreenCloud} does not incorporate the \emph{PUE} calculation feature,
     \item \textbf{Air Distribution:} perimeter cooling;
     \item \textbf{CRAC/CRAH Redundancy:} single path CRAC/CRAH;
     \item \textbf{Heat Rejection Redundancy:} single path heat rejection;
-    \item \textbf{Water-side Economizer Time:} N/A
+    \item \textbf{Water-side Economizer Time:} N/A;
     \item \textbf{Design Details:} Standby Generator, Optimized Rack Layout, Blanking Panels, UPS in Eco Mode, Energy Efficient Lighting, Coordinated CRAC/CRAH.
 \end{itemize}
 
+\section{Attack scenario modeling}
+Chapter \ref{chapter:introduction} has described the attack scenarios studied from a theoretical point of view and has analyzed real-world implications and threats for a Data Center. The aim of this section is to provide an overview about how the described attack scenarios have been modeled within the context of the performed simulations.
+
+\subsection{DoS scenario}
+The \emph{DoS} scenario was simulated by dynamically increasing the load during the simulation. Specifically, the expected load was set at 40\% of the available \emph{MIPS} in the data center, while anything beyond 80\% was considered indicative of a \emph{DoS} attack.
+
+\subsection{Cooling system attack scenario} \label{subsection:coolingsystemattack}
+There are several attack scenarios targeting the cooling system of the data center; however, for this research work, focus has been placed on a specific one. In data center design, various cooling solutions can be chosen, including perimeter cooling and close-coupled cooling. In the former, a computer room air conditioner \emph{(CRAC)} cools the entire room, while in the latter, the air conditioning units are placed as close as possible to the heat source. The primary advantage of the close-coupled approach is that cooling occurs precisely where it's needed, preventing the formation of hot spots \cite{anixter}.
+Considering that Data Centers typically employ a combination of both cooling approaches, a potential attack could target the close-coupled cooling system. Since the tool used for data center configuration allows analysis of scenarios with both close-coupled and perimeter cooling setups, it is feasible to pratically simulate such a scenario. 
+
+\section{PUE formula approximation}
+As previously mentioned, an online calculator provided by Schneider Electric SE was used for calculating the PUE and configuring the data center. Due to the absence of an exact formula for PUE calculation, a curve fitting technique was employed. To derive the formula for PUE calculation, it is necessary to consider two scenarios: one where the data center configuration aligns with what is described in the Subsection \ref{subsection:powercooling}, and another where the cooling system attack described in paragraph \ref{subsection:coolingsystemattack} occurs. In the first case, after configuring the tool with the parameters specified in Subsection \ref{subsection:powercooling}, 17 points were selected on the graph representing various load intensities (and consequently different power values in kW), from which the PUE was extrapolated. Subsequently, Excel's curve fitting feature was utilized, using the "Power" function, as it best matched the PUE's shape and aligned with the collected data points. The resulting formula obtained was: \(y = 725.31x^{-0.575}\) and the corresponding chart is illustrated in figure \ref{fig:curve_fitting_normal}. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{chapters/images/curve_fitting_normal.png}
+    \caption{Curve fitting (normal Data Center parameters)}
+    \label{fig:curve_fitting_normal}
+\end{figure}
+
+
+On the other hand, in the second case, after setting the \emph{air distribution} parameter to \emph{perimeter cooling}, the same procedure was followed as described earlier, resulting in the following formula: \(y=1337.4x^{-0.623}\) and the corresponding chart is illustrated in figure \ref{fig:curve_fitting_modified}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{chapters/images/curve_fitting_modified.png}
+    \caption{Curve fitting (modified Data Center parameters)}
+    \label{fig:curve_fitting_modified}
+\end{figure}
+
 \section{Executed simulations}
+In order to examine the variation of PUE across several scenarios, multiple simulations under various conditions have been carried out. The simulations results, organized as described in Section \ref{subsection:simulationoutput}, are accessible in the \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/tree/main/simulation_reports}{simulations\_reports} directory of the research work's repository. This directory comprises individual subdirectories corresponding to each conducted simulation. The following subsections provide descriptions of the individual conducted simulations.
 
 \subsection{Normal load simulation}
 
@@ -56,13 +79,6 @@ Since \emph{GreenCloud} does not incorporate the \emph{PUE} calculation feature,
 
 \subsection{Cooling system attack scenario simulation}
 
-\section{PUE formula approximation}
-
-\subsection{Approximation under normal Data Center configuration}
-
-\subsection{Approximation under altered Data Center configuration}
-
-\section{PUE calculation in the executed simulations}\label{section:puecalculation_tool}
 
 \section{Results}
 
