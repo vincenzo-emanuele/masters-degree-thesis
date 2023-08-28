@@ -1,0 +1,13 @@
+architecture.datacenter three-tier debug
+count.switches.core 1
+count.switches.aggregation 2
+count.switches.access 3
+count.servers 144
+count.users 4
+powermanagement.servers DVFS DNS
+powermanagement.switches No
+task.mips 300000
+task.memory 1000000
+task.storage 0
+task.size 8500
+task.outputsize 250000

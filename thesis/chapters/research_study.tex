@@ -9,7 +9,7 @@
 \newpage
 
 \section{Changes implemented in GreenCloud}\label{section:greencloud_mod}
-The modifications made to the \emph{GreenCloud} simulator's code aim to achieve a time-stamped log of the instantaneous overall energy consumption of the data center. While exploring the log files, it became apparent that such a report was missing. Therefore, it was necessary to construct it using the data provided by the simulator. As discussed in Subsection \ref{subsection:greencloud_code}, in order to enable scripts to access the variables provided by \emph{C++} classes and create simulation reports, a binding between these variables and symbolic names within the classes is necessary. Since the \emph{SwitchEnergyModel} class defined in the file \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/blob/main/greencloud_modified_src/ns2/greencloud/switchenergymodel.cc}{ns2/greencloud/switchenergymodel.cc} and responsible for modeling switch energy consumption, doesn't make the \emph{eCurrentRate\_} variable, representing instantaneous switch energy consumption, available to scripts, the initial modification made was to bind the \emph{eCurrentRate\_} variable to the symbolic name \emph{eCurrentRate\_}. Once that was done, within the \emph{record\_graphs} procedure (called every 100 milliseconds by the simulator to update data in report files) defined in the \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/blob/main/greencloud\_modified\_src/scripts/record.tcl}{scripts/record.tcl} script, an instantaneous energy consumption calculation for data center components was implemented. This was achieved using the \emph{eCurrentRate\_} variables related to servers and switches (lines 41-74). Given that this calculation occurs every 100 milliseconds, an instruction was added (line 79) to store the instantaneous energy consumption and its corresponding timestamp in a specifically created file. This log file is fundamental for the conducted research study as it provides an insight of the consumed energy throughout the whole simulation and allows to calculate \emph{PUE} at specific moments facilitating the study of its fluctuations.
+The modifications made to the \emph{GreenCloud} simulator's code aim to achieve a time-stamped log of the instantaneous overall energy consumption of the data center. While exploring the log files, it became apparent that such a report was missing. Therefore, it was necessary to construct it using the data provided by the simulator. As discussed in Subsection \ref{subsection:greencloud_code}, in order to enable scripts to access the variables provided by \emph{C++} classes and create simulation reports, a binding between these variables and symbolic names within the classes is necessary. Since the \emph{SwitchEnergyModel} class defined in the file \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/blob/main/greencloud_modified_src/ns2/greencloud/switchenergymodel.cc}{ns2/greencloud/switchenergymodel.cc} and responsible for modeling switch energy consumption, does not make the \emph{eCurrentRate\_} variable, representing instantaneous switch energy consumption, available to scripts, the initial modification made was to bind the \emph{eCurrentRate\_} variable to the symbolic name \emph{eCurrentRate\_}. Once that was done, within the \emph{record\_graphs} procedure (called every 100 milliseconds by the simulator to update data in report files) defined in the \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/blob/main/greencloud\_modified\_src/scripts/record.tcl}{scripts/record.tcl} script, an instantaneous energy consumption calculation for data center components was implemented. This was achieved using the \emph{eCurrentRate\_} variables related to servers and switches (lines 41-74). Given that this calculation occurs every 100 milliseconds, an instruction was added (line 79) to store the instantaneous energy consumption and its corresponding timestamp in a specifically created file. This log file is fundamental for the conducted research study as it provides an insight of the consumed energy throughout the whole simulation and allows to calculate \emph{PUE} at specific moments facilitating the study of its fluctuations.
 
 \section{Data Center Design}
 In order to perform extract accurate data from simulations, it is necessary to understand various aspects of the Data Center where these simulations are carried out. The goal of the following subsections is to describe its key aspects, such as architecture and component specifications. Furthermore, aspects related to configuring power and cooling parameters for the data center will be addressed, and the methods used to estimate the maximum Data Center capacity will be illustrated.
@@ -22,7 +22,6 @@ Inspecting \emph{GreenCloud}'s source code reveals that servers in the three-tie
 
 \subsection{IT capacity calculation} \label{subsection:it_capacity}
 The calculation of the energy required by the Data Center was carried out by considering the maximum consumption of its components. In particular, as described in Section \ref{subsection:components_spec}, the maximum consumption of a single server is 201 W when its CPU operates at 100\% load. Since the architecture consists of 144 servers, the maximum amount of energy consumed by the servers totals 28944 W. Concerning the switches, on the other hand, the documentation of the simulator and the source code did not provide a clear indication of their maximum achievable energy consumption. To overcome this issue, multiple simulations were carried out with all energy-saving mechanisms disabled, ensuring that switches operated at their highest power levels. These simulations demonstrated that core and aggregation layer switches consume 2824 W, while access layer switches consume 166 W. Therefore, the 3 switches in the access layer collectively consume 498 W, the 2 switches in the aggregation layer consume 5648 W, and the single switch in the core layer consumes 2824 W, resulting in a total of 8970 W consumed by all switches in the architecture. By summing up the consumption of servers and switches, the total power consumption amounts to 37914 W.
-
 
 \subsection{Power and cooling parameters} \label{subsection:powercooling}
 Since \emph{GreenCloud} does not incorporate the \emph{PUE} calculation feature, an online \href{https://www.se.com/ww/en/work/solutions/system/s1/data-center-and-network-systems/trade-off-tools/data-center-efficiency-and-pue-calculator/}{tool} provided by \emph{Schneider Electric SE} was employed for this purpose. This tool requires several details related to the cooling system for \emph{PUE} calculation, configured as follows:
@@ -47,7 +46,7 @@ Chapter \ref{chapter:introduction} has described the attack scenarios studied fr
 The \emph{DoS} scenario was simulated by dynamically increasing the load during the simulation. Specifically, the expected load was set at 40\% of the available \emph{MIPS} in the data center, while anything beyond 80\% was considered indicative of a \emph{DoS} attack.
 
 \subsection{Cooling system attack scenario} \label{subsection:coolingsystemattack}
-There are several attack scenarios targeting the cooling system of the data center; however, for this research work, focus has been placed on a specific one. In data center design, various cooling solutions can be chosen, including perimeter cooling and close-coupled cooling. In the former, a computer room air conditioner \emph{(CRAC)} cools the entire room, while in the latter, the air conditioning units are placed as close as possible to the heat source. The primary advantage of the close-coupled approach is that cooling occurs precisely where it's needed, preventing the formation of hot spots \cite{anixter}.
+There are several attack scenarios targeting the cooling system of the data center; however, for this research work, focus has been placed on a specific one. In data center design, various cooling solutions can be chosen, including perimeter cooling and close-coupled cooling. In the former, a computer room air conditioner \emph{(CRAC)} cools the entire room, while in the latter, the air conditioning units are placed as close as possible to the heat source. The primary advantage of the close-coupled approach is that cooling occurs precisely where it is needed, preventing the formation of hot spots \cite{anixter}.
 Considering that Data Centers typically employ a combination of both cooling approaches, a potential attack could target the close-coupled cooling system. Since the tool used for data center configuration allows analysis of scenarios with both close-coupled and perimeter cooling setups, it is feasible to pratically simulate such a scenario. 
 
 \section{PUE formula approximation}
@@ -69,20 +68,60 @@ On the other hand, in the second case, after setting the \emph{air distribution}
 \end{figure}
 
 \section{Executed simulations}
-In order to examine the variation of PUE across several scenarios, multiple simulations under various conditions have been carried out. The simulations results, organized as described in Section \ref{subsection:simulationoutput}, are accessible in the \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/tree/main/simulation_reports}{simulations\_reports} directory of the research work's repository. This directory comprises individual subdirectories corresponding to each conducted simulation. The following subsections provide descriptions of the individual conducted simulations.
+In order to examine the variation of PUE across several scenarios, multiple simulations under various conditions have been carried out. The simulations results, organized as described in Section \ref{subsection:simulationoutput}, are accessible in the \href{https://github.com/vincenzo-emanuele/masters-degree-thesis/tree/main/simulation_reports}{simulations\_reports} directory of the research work's repository. This directory comprises individual subdirectories corresponding to each conducted simulation. The following subsections provide descriptions of the individual conducted simulations. For each simulation a \emph{PUE} chart has been obtained using the formulas previously derived. 
 
-\subsection{Normal load simulation}
+\subsection{Normal load simulation} \label{subsection:normalload}
+The first simulation has been performed keeping a constant load of about 40\% for the whole simulation time. This scenario is purely theoretical and does not account for load fluctuations, but it provides an insight into the \emph{PUE} values throughout the normal load periods. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{chapters/images/normal_load_pue.png}
+    \caption{Normal Load (PUE)}
+    \label{fig:normal_load_pue}
+\end{figure}
+Figure \ref{fig:normal_load_pue} shows \emph{PUE} variation throughout the simulation. It is apparent that after a first period of about 5 seconds, during which the Data Center becomes fully operational, it remains constant for the whole simulation time and its value is around \textbf{2.32}. 
 
-\subsection{High load simulation}
+\subsection{DoS scenario simulation}
+This simulation has been performed by modeling a scenario in which the load gradually increases from a normal condition of 40\% to reach 100\%. Specifically, the load variation was managed as follows: at the beginning of the simulation, a single user was instantiated, requiring computational power around 40\% of the total capacity. At time 20.0, an additional user was added, increasing the computational power demand to 80\%. At time 30.0, a third user was added, utilizing the full computational power. Subsequently, at time 40.0, the last user was added. Figure \ref{fig:dos_pue} shows \emph{PUE} variation throughout the simulation. It is apparent that as long as the data center load has not reached 100\%, the variation in \emph{PUE} is noticeable as there is a \textbf{23\% decrease} when the second user joins the Data Center (from 2.33 to 1.80) and a \textbf{6.66\% decrease} when the third user joins the Data Center (from 1.80 to 1.68); however, after reaching the peak, this variation disappears entirely. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{chapters/images/dos_pue.png}
+    \caption{Denial of Service Scenario (PUE)}
+    \label{fig:dos_pue}
+\end{figure}
 
-\subsection{DDoS scenario simulation}
+\subsection{High load simulation} \label{subsection:highload}
+This simulation has been also performed keeping a constant load, but in this scenario the load hovers around 80\%. This scenario is solely intended to demonstrate how the variation of \emph{PUE} in the case of the cooling system attack is observable independently of the load conditions. Figure \ref{fig:high_load_pue} shows \emph{PUE} variation throughout the simulation. It is apparent that after a first period of about 5 seconds, during which the Data Center becomes fully operational, it remains constant for the whole simulation time and its value is around \textbf{1.70}. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{chapters/images/high_load_pue.png}
+    \caption{High Load (PUE)}
+    \label{fig:high_load_pue}
+\end{figure}
+
 
 \subsection{Cooling system attack scenario simulation}
+In order to simulate the scenario where the cooling system is attacked as outlined in subsection \ref{subsection:coolingsystemattack}, data from the previously conducted simulations were utilized. Specifically, the data from the simulation with normal load and the simulation with high load (discussed in Subsections \ref{subsection:normalload} and \ref{subsection:highload} respectively) were used. In both scenarios, the \emph{PUE} was calculated using both the formula applicable under normal conditions and the formula applicable under the cooling system attack scenario. The variation in \emph{PUE} was then observed. Figure \ref{fig:normal_load_pue_comp} illustrates the comparison of \emph{PUE} trends under normal load conditions, showing the difference between the Data Center when it has not experienced a cooling system attack and when it has. On the other hand, figure \ref{fig:high_load_pue_comp} illustrates the same comparison under high load conditions. Under normal load conditions the difference between \emph{PUE} values is about \textbf{13\%}, while in the second case it is approximately \textbf{10\%}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{chapters/images/normal_load_pue_comp.png}
+    \caption{Normal Load PUE comparison}
+    \label{fig:normal_load_pue_comp}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{chapters/images/high_load_pue_comp.png}
+    \caption{High Load PUE comparison}
+    \label{fig:high_load_pue_comp}
+\end{figure}
 
 
 \section{Results}
+Once the simulations are done and the graphs showing changes in \emph{PUE} are obtained, it is important to look at the data to figure out if the \emph{PUE} parameter is really helpful to detect the studied attacks. The following subsections aim to provide both reflections about the collected data placing them in real-world contexts and a comparison with the current state of the art will be carried out to contextualize the devised approach within existing detection techniques.
 
-\subsection{PUE utilization in DDoS scenarios}
+\subsection{PUE utilization in DoS scenarios}
 
 \subsection{PUE utilization in cooling system attack scenarios}
+
+\subsection{Comparison with the State of the Art}
 
