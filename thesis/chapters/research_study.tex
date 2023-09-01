@@ -99,31 +99,15 @@ This simulation has been performed by modeling a scenario in which the load slow
     \label{fig:slow_dos_pue}
 \end{figure}
 
-\subsection{High load simulation} \label{subsection:highload}
-This simulation has been also performed keeping a constant load, but in this scenario the load hovers around 80\%. This scenario is solely intended to demonstrate how the variation of \emph{PUE} in the case of the cooling system attack is observable independently of the load conditions. Figure \ref{fig:high_load_pue} shows \emph{PUE} variation throughout the simulation. It is apparent that after a first period of about 5 seconds, during which the Data Center becomes fully operational, it remains constant for the whole simulation time and its value is around \textbf{1.70}. 
+\subsection{Cooling system attack scenario simulation} \label{subsection:coolingsystemattack}
+In order to simulate the scenario where the cooling system is attacked as outlined in subsection \ref{subsection:coolingsystemattack}, data from the previously conducted simulations were utilized. Specifically, the data from the silent \emph{DoS} scenario were used as it covers all the workload conditions. The \emph{PUE} was calculated using both the formula applicable under normal conditions and the formula applicable under the cooling system attack scenario. The variation in \emph{PUE} was then observed. Figure \ref{fig:pue_comp} illustrates the comparison of \emph{PUE} trends throughout the whole simulation, showing the difference between the Data Center when it has not experienced a cooling system attack and when it has. \emph{PUE} value variation ranges \textbf{between 17.4\% and 10.5\%}.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.6\textwidth]{chapters/images/high_load_pue.png}
-    \caption{High Load (PUE)}
-    \label{fig:high_load_pue}
+    \includegraphics[width=0.6\textwidth]{chapters/images/pue_comp.png}
+    \caption{PUE comparison}
+    \label{fig:pue_comp}
 \end{figure}
 
-
-\subsection{Cooling system attack scenario simulation}
-In order to simulate the scenario where the cooling system is attacked as outlined in subsection \ref{subsection:coolingsystemattack}, data from the previously conducted simulations were utilized. Specifically, the data from the simulation with normal load and the simulation with high load (discussed in Subsections \ref{subsection:normalload} and \ref{subsection:highload} respectively) were used. In both scenarios, the \emph{PUE} was calculated using both the formula applicable under normal conditions and the formula applicable under the cooling system attack scenario. The variation in \emph{PUE} was then observed. Figure \ref{fig:normal_load_pue_comp} illustrates the comparison of \emph{PUE} trends under normal load conditions, showing the difference between the Data Center when it has not experienced a cooling system attack and when it has. On the other hand, figure \ref{fig:high_load_pue_comp} illustrates the same comparison under high load conditions. Under normal load conditions the difference between \emph{PUE} values is about \textbf{13\%}, while in the second case it is approximately \textbf{10\%}.
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.6\textwidth]{chapters/images/normal_load_pue_comp.png}
-    \caption{Normal Load PUE comparison}
-    \label{fig:normal_load_pue_comp}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.6\textwidth]{chapters/images/high_load_pue_comp.png}
-    \caption{High Load PUE comparison}
-    \label{fig:high_load_pue_comp}
-\end{figure}
 
 
 \section{Results}
@@ -141,6 +125,28 @@ Furthermore, in the case of a slow DoS situation, the PUE variation becomes less
 \end{figure}
 
 \subsection{PUE utilization in cooling system attack scenarios}
+As highlighted by the results obtained and described in subsection \ref{subsection:coolingsystemattack}, unlike the case of the \emph{DoS} scenario, the difference in \emph{PUE} variation is well observable regardless of the load conditions. Once again, the reason behind this phenomenon can be attributed to the nature of the curve describing the \emph{PUE}, which, in the case of an attack on the close-coupled cooling system, is shifted. Figure \ref{fig:pue_curves_comp} illustrates the curve obtained through curve fitting for the scenario where no attack is occurring and the curve obtained through curve fitting for the scenario with an attack on the cooling system, presented on the same graph.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{chapters/images/pue_curves_comp.png}
+    \caption{PUE curves comparison}
+    \label{fig:pue_curves_comp}
+\end{figure}
+Although the two curves seem to overlap at some point, the study has shown that even under maximum load conditions a difference in \emph{PUE} of 10\% is observable. Unlike the \emph{DoS} case, where detecting the attack involves monitoring a shift on the same curve that tends to flatten out, in this scenario, the problem is reduced to determining which curve the points observed during runtime belong to. If they belong to the curve that describes the scenario of an attack at the cooling system, it is reasonable to assume that an attack is occurring.
+Referring to the real-world scenario described earlier, an attack that disables the close-coupled cooling system can be detected at any time of the day, even during peak operational hours of the Data Center. Unlike the previous case, in this scenario, it's not just the \emph{PUE} variation itself that needs to be observed but a variation while keeping energy consumption constant. Therefore, if the \emph{PUE} is expected to have a certain value around a specific level of energy consumption, a significant change in it (which depends on load conditions) under the same energy consumption conditions can be indicative of an attack. Highlighting once again, the numbers mentioned are approximate and derived from simulations on a simplified Data Center model. To deploy this system in a real-world scenario, specific data from the actual Data Center must be considered. The scatter graph shown in figure \ref{fig:pue_variation_cooling} displays the percentage change in PUE between the two scenarios, starting from a 10\% load and reaching the maximum load. It is noticeable that this variation ranges between 10\% and 18\%, making the \emph{PUE} a valid parameter for attack detection.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{chapters/images/pue_variation_cooling.png}
+    \caption{PUE percentage variation}
+    \label{fig:pue_variation_cooling}
+\end{figure}
 
 \subsection{Comparison with the State of the Art}
+After explaining the limits within which \emph{PUE} results effective to detect the described attacks, it is useful to contextualize these approaches within the current state of the art solutions. These approaches do not need specific equipment for \emph{PUE} calculation; a wattmeter and one of the \emph{PUE} calculation techniques explained in Subsection \ref{subsection:puecalculation} are enough. In comparison to conventional anomaly detection methods outlined in Section \ref{section:ids}, this detection technique stands out because it operates without the need to understand or inspect network traffic. For this reason, it does not require artificial intelligence techniques or models training in order to work. However, as explained before, this approach has inherent limitations, especially during peak load moments when distinguishing between an attack and a normal load increase can become difficult. Therefore, as highlighted before, it is crucial to complement this technique with a comprehensive consumption profile. In general, the proposed technique can be used in synergy with existing state of the art solutions, functioning as an early warning system for potential \emph{DoS} attacks. In cases where the detection threshold is not sufficiently high, a traffic inspection technique should be used.
+
+
+
+
+
 
