@@ -4,10 +4,11 @@
 \markboth{State of the art}{}
 
 \begin{citazione}
+In this chapter an overview about the currently available techniques of \emph{DoS} and cooling system attack detection will be provided. Furthermore, in order to choose a viable platform to perform Data Center simulations, several Cloud simulators will be analyzed and compared.
 \end{citazione}
 \newpage
 
-\section{Denial of Service detection techniques}
+\section{Denial of Service detection techniques} \label{section:dos_detection}
 Since Denial of Service attacks have always been a crucial threat to Data Centers security, over the years researchers carried out several studies about \emph{DoS} detection techniques. Most of these techniques rely on the use of Intrusion Detection Systems \emph{(IDS)} implementing detection mechanisms mostly based on Artificial Intelligence techniques. This section summarizes some of the research works about this topic available in literature:
 \begin{itemize}
 \item \emph{Wei Zhou et al.} \cite{zhou2014detection} proposed a method to detect Application Layer Distributed Denial of Service (\emph{AL-DDoS}) attacks in heavy backbone traffic. This approach models the traffic in real-time and, through an examination of the entropy of AL-DDoS attacks and flash crowds (i.e. the legitimate traffic), it is capable to distinguish between these two cases and detect real \emph{AL-DDoS} attacks. The authors tested this algorithm on real data and claimed it is effective to identify and stop attack sources. However they mentioned the need to improve the reaction rate leaving it as a possible future development;
