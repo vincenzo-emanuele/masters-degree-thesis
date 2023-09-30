@@ -238,15 +238,15 @@ bindingoffset=15mm,marginpar=1.5cm,reversemp]{geometry}
 
 \usepackage[hyperpageref]{backref}
 \renewcommand{\backref}[1]{}
-\renewcommand*{\backreftwosep}{ e~}
-\renewcommand*{\backreflastsep}{ e~}
+\renewcommand*{\backreftwosep}{ and~}
+\renewcommand*{\backreflastsep}{ and~}
 \renewcommand*{\backrefalt}[4]{%
    \ifcase #1 %
       \relax%
    \or
-      (Citato a pagina~#2)%
+      (Cited on page~#2)%
    \else
-      (Citato alle pagine~#2)
+      (Cited on pages~#2)
    \fi}
 % Per evidenziare la/le pagina/e dove sono citati 
 
